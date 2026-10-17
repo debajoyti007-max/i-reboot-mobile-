@@ -1,159 +1,206 @@
 import { useState, useEffect } from "react"
-import { Phone, MessageSquare, Menu, X, Globe } from "lucide-react"
-import { useLanguage, type Language } from "../../context/LanguageContext"
-import { translations } from "../../i18n/translations"
+import { Phone, MessageCircle, Menu, X, Sparkles, Leaf } from "lucide-react"
+import { InstagramIcon, FacebookIcon } from "../icons/SocialIcons"
+import { PUROBITE_CONTACT } from "../../data/purobiteData"
 
 export default function Navbar() {
-  const { lang, setLang } = useLanguage()
-  const t = translations[lang].nav
   const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-
-  const base = import.meta.env.BASE_URL.replace(/\/$/, "")
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener("scroll", handleScroll)
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const navLinks = [
-    { label: t.services, href: "#services" },
-    { label: t.estimator, href: "#estimator" },
-    { label: t.brands, href: "#brands" },
-    { label: t.contact, href: "#contact" },
+    { label: "Banana Chew", href: "#hero" },
+    { label: "8 Superfoods", href: "#superfoods" },
+    { label: "Nutritional Map", href: "#nutrition" },
+    { label: "Packs & Pricing", href: "#packs" },
+    { label: "Handcrafted Story", href: "#craftsmanship" },
+    { label: "Reviews", href: "#reviews" },
+    { label: "Contact", href: "#contact" },
   ]
 
-  const languages: { code: Language; label: string }[] = [
-    { code: "bn", label: "বাংলা" },
-    { code: "en", label: "English" },
-    { code: "hi", label: "हिन्दी" },
-  ]
+  const whatsappOrderUrl = `https://wa.me/918250755958?text=${encodeURIComponent(
+    "Hello PuroBite! I'd like to order Banana Chew artisanal snack pack."
+  )}`
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-[#06070a]/95 backdrop-blur-md border-b border-zinc-800/80 py-3 shadow-2xl shadow-black/80"
-          : "bg-transparent py-4 border-b border-transparent"
+          ? "bg-[#030906]/80 backdrop-blur-2xl border-b border-emerald-900/30 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.7)]"
+          : "bg-transparent py-5"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Brand Logo & Name */}
-        <a href="#top" className="flex items-center gap-3 group">
-          <img
-            src={`${base}/logo.svg`}
-            alt="I REBOOT Logo"
-            className="w-10 h-10 object-contain filter drop-shadow-[0_0_12px_rgba(14,165,233,0.4)] group-hover:scale-105 transition-transform"
-          />
-          <div>
-            <div className="font-bold text-lg tracking-tight text-white flex items-center gap-1.5">
-              <span>{t.brandName}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between">
+          {/* Logo & Brand Identity */}
+          <a href="#" className="flex items-center gap-3 group">
+            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-600/30 via-amber-500/20 to-emerald-950/80 border border-emerald-500/40 flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.25)] group-hover:border-amber-400/50 transition-colors">
+              <Leaf className="w-5 h-5 text-emerald-400 group-hover:text-amber-300 transition-colors" />
+              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+              </span>
             </div>
-            <div className="text-[11px] font-mono text-zinc-400">
-              {t.brandTag}
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5">
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-white font-serif">
+                  Puro<span className="text-amber-400">Bite</span>
+                </span>
+                <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-500/30">
+                  Natural
+                </span>
+              </div>
+              <span className="text-[9px] uppercase tracking-[0.25em] text-stone-400 font-medium">
+                Purity In Every Bite
+              </span>
             </div>
-          </div>
-        </a>
-
-        {/* Desktop Links */}
-        <nav className="hidden lg:flex items-center gap-7">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-xs font-mono uppercase tracking-wider text-zinc-400 hover:text-cyan-400 transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* Right Action Controls: Lang Switcher + Call + WA */}
-        <div className="flex items-center gap-3">
-          {/* Language Switcher Pill */}
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-zinc-900/90 border border-zinc-800 text-xs font-mono backdrop-blur-md">
-            <Globe className="w-3.5 h-3.5 text-zinc-400 ml-1.5 hidden sm:inline" />
-            {languages.map((l) => (
-              <button
-                key={l.code}
-                onClick={() => setLang(l.code)}
-                className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                  lang === l.code
-                    ? "bg-cyan-600 text-white font-bold shadow-md shadow-cyan-950"
-                    : "text-zinc-400 hover:text-zinc-200"
-                }`}
-                title={`Switch to ${l.label}`}
-              >
-                {l.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Direct Call Button */}
-          <a
-            href="tel:8697323726"
-            className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-xs font-mono text-zinc-200 border border-zinc-800 transition-colors"
-          >
-            <Phone className="w-3.5 h-3.5 text-cyan-400" />
-            <span>{t.call}</span>
           </a>
 
-          {/* Direct WhatsApp CTA */}
-          <a
-            href="https://wa.me/918697323726?text=Hello%20I%20REBOOT%2C%20I%20need%20to%20get%20my%20smartphone%20repaired%20at%20your%20Lenin%20Sarani%20service%20centre."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white text-xs font-mono font-medium shadow-lg shadow-sky-950/50 hover:shadow-sky-600/30 transition-all"
-          >
-            <MessageSquare className="w-3.5 h-3.5" />
-            <span>{t.whatsapp}</span>
-          </a>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer */}
-      {mobileOpen && (
-        <div className="lg:hidden bg-zinc-950/95 border-b border-zinc-800 px-5 py-6 space-y-4 backdrop-blur-xl">
-          <nav className="flex flex-col gap-3">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 px-3 py-1.5 rounded-full bg-stone-900/40 backdrop-blur-md border border-white/10 shadow-inner">
             {navLinks.map((link) => (
               <a
-                key={link.label}
+                key={link.href}
                 href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="text-sm font-mono text-zinc-300 hover:text-cyan-400 py-2 border-b border-zinc-900"
+                className="px-3 py-1.5 text-xs xl:text-sm font-medium text-stone-300 hover:text-amber-300 rounded-full hover:bg-white/5 transition-all"
               >
                 {link.label}
               </a>
             ))}
           </nav>
-          <div className="flex flex-col gap-2.5 pt-2">
+
+          {/* Actions & Contacts */}
+          <div className="hidden sm:flex items-center gap-3">
+            {/* Phone Quick Call */}
             <a
-              href="tel:8697323726"
-              className="flex items-center justify-center gap-2 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-mono text-zinc-200"
+              href={PUROBITE_CONTACT.phoneTel}
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-amber-400/40 text-stone-200 text-xs font-medium transition-all group"
+              title="Call PuroBite"
             >
-              <Phone className="w-4 h-4 text-cyan-400" />
-              <span>{t.call}: +91 86973 23726</span>
+              <Phone className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
+              <span>{PUROBITE_CONTACT.phoneDisplay}</span>
             </a>
+
+            {/* Social Icons */}
+            <div className="flex items-center gap-1.5">
+              <a
+                href={PUROBITE_CONTACT.instagramUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 rounded-xl bg-white/[0.03] hover:bg-pink-500/10 border border-white/10 hover:border-pink-500/40 text-stone-300 hover:text-pink-400 transition-all"
+                title="Follow @eatpurobite on Instagram"
+              >
+                <InstagramIcon className="w-4 h-4" />
+              </a>
+              <a
+                href={PUROBITE_CONTACT.facebookUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="p-2 rounded-xl bg-white/[0.03] hover:bg-blue-500/10 border border-white/10 hover:border-blue-500/40 text-stone-300 hover:text-blue-400 transition-all"
+                title="PuroBite on Facebook"
+              >
+                <FacebookIcon className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* WhatsApp CTA Button */}
             <a
-              href="https://wa.me/918697323726?text=Hello%20I%20REBOOT%2C%20I%20want%20to%20inquire%20about%20mobile%20repair."
+              href={whatsappOrderUrl}
               target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 py-3 rounded-xl bg-sky-600 text-white text-xs font-mono font-medium"
+              rel="noreferrer"
+              className="relative group overflow-hidden flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-amber-500 text-stone-950 font-bold text-xs tracking-wide shadow-[0_0_24px_rgba(16,185,129,0.35)] hover:shadow-[0_0_32px_rgba(245,158,11,0.5)] transition-all transform hover:-translate-y-0.5"
             >
-              <MessageSquare className="w-4 h-4" />
-              <span>{t.whatsapp}</span>
+              <MessageCircle className="w-4 h-4 text-stone-950 fill-stone-950" />
+              <span>Order on WhatsApp</span>
+              <Sparkles className="w-3.5 h-3.5 text-stone-950 animate-pulse" />
             </a>
+          </div>
+
+          {/* Mobile Menu Toggle Button */}
+          <div className="flex sm:hidden items-center gap-2">
+            <a
+              href={whatsappOrderUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="p-2 rounded-lg bg-emerald-600 text-stone-950 font-bold"
+              aria-label="Order on WhatsApp"
+            >
+              <MessageCircle className="w-4 h-4" />
+            </a>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-lg bg-white/5 border border-white/10 text-stone-200 hover:text-amber-400"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6 text-stone-200" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Drawer Menu */}
+      {mobileMenuOpen && (
+        <div className="sm:hidden fixed inset-x-0 top-[62px] p-4 bg-[#030906]/95 backdrop-blur-2xl border-b border-emerald-900/40 shadow-2xl transition-all">
+          <div className="flex flex-col gap-2">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-4 py-3 rounded-xl bg-white/[0.03] hover:bg-emerald-950/40 text-stone-200 hover:text-amber-300 text-sm font-medium border border-white/5 transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+
+            <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
+              <a
+                href={PUROBITE_CONTACT.phoneTel}
+                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-white/[0.05] border border-white/10 text-stone-200 text-sm font-medium"
+              >
+                <Phone className="w-4 h-4 text-amber-400" />
+                <span>Call {PUROBITE_CONTACT.phoneDisplay}</span>
+              </a>
+
+              <a
+                href={whatsappOrderUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-amber-500 text-stone-950 font-bold text-sm shadow-lg"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>Quick WhatsApp Order</span>
+              </a>
+
+              <div className="flex items-center justify-center gap-4 pt-2">
+                <a
+                  href={PUROBITE_CONTACT.instagramUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1.5 text-xs text-stone-400 hover:text-pink-400"
+                >
+                  <InstagramIcon className="w-4 h-4" />
+                  <span>@eatpurobite</span>
+                </a>
+                <span className="text-stone-700">•</span>
+                <a
+                  href={PUROBITE_CONTACT.facebookUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-1.5 text-xs text-stone-400 hover:text-blue-400"
+                >
+                  <FacebookIcon className="w-4 h-4" />
+                  <span>Facebook</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       )}

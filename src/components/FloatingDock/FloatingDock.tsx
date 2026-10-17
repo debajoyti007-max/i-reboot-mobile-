@@ -1,42 +1,55 @@
-import { MessageSquare, Phone } from "lucide-react"
-import { useLanguage } from "../../context/LanguageContext"
-import { translations } from "../../i18n/translations"
+import { Phone, MessageCircle, ShoppingBag, Sparkles } from "lucide-react"
+import { InstagramIcon } from "../icons/SocialIcons"
+import { PUROBITE_CONTACT } from "../../data/purobiteData"
 
 export default function FloatingDock() {
-  const { lang } = useLanguage()
-  const t = translations[lang]
+  const whatsappUrl = `https://wa.me/918250755958?text=${encodeURIComponent(
+    "Hello PuroBite! I'd like to order Banana Chew artisanal snack pack."
+  )}`
 
   return (
-    <aside
-      aria-label="Quick contact dock"
-      className="fixed bottom-5 right-5 z-40 flex items-center gap-2.5 p-1.5 rounded-full bg-zinc-950/90 backdrop-blur-2xl border border-white/10 shadow-2xl shadow-black/90"
-    >
-      {/* Live bench status pill */}
-      <div className="hidden sm:flex items-center gap-2 pl-3 pr-2 py-1 text-[11px] font-mono text-zinc-300">
-        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-        <span>{t.dock.status}</span>
-      </div>
-
-      {/* Direct Call Button */}
+    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 px-3 py-2 rounded-full bg-stone-950/85 backdrop-blur-2xl border border-white/15 shadow-[0_15px_40px_rgba(0,0,0,0.85)] flex items-center gap-2 sm:gap-3">
+      {/* Quick Call */}
       <a
-        href="tel:8697323726"
-        className="w-10 h-10 rounded-full bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-cyan-400 flex items-center justify-center transition-all hover:scale-105"
-        title="Direct Call to I REBOOT: 8697323726"
+        href={PUROBITE_CONTACT.phoneTel}
+        className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/5 hover:bg-white/10 text-stone-200 text-xs font-semibold border border-white/10 transition-colors"
+        title="Call PuroBite"
       >
-        <Phone className="w-4 h-4" />
+        <Phone className="w-3.5 h-3.5 text-amber-400" />
+        <span className="hidden sm:inline">Call Us</span>
       </a>
 
-      {/* WhatsApp Action Button */}
+      {/* Instagram */}
       <a
-        href="https://wa.me/918697323726?text=Hello%20I%20REBOOT%2C%20I%20am%20inquiring%20about%20a%20smartphone%20repair%20at%205A%20Lenin%20Sarani."
+        href={PUROBITE_CONTACT.instagramUrl}
         target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white text-xs font-mono font-medium shadow-lg shadow-sky-950/60 hover:shadow-sky-600/30 transition-all hover:scale-105"
-        title="WhatsApp I REBOOT"
+        rel="noreferrer"
+        className="p-2 rounded-full bg-white/5 hover:bg-pink-500/10 text-stone-200 hover:text-pink-400 text-xs font-semibold border border-white/10 transition-colors"
+        title="Follow @eatpurobite"
       >
-        <MessageSquare className="w-4 h-4" />
-        <span className="hidden sm:inline">{t.dock.wa}</span>
+        <InstagramIcon className="w-4 h-4" />
       </a>
-    </aside>
+
+      {/* Jump to Packs */}
+      <a
+        href="#packs"
+        className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/5 hover:bg-emerald-950/40 text-stone-200 hover:text-emerald-300 text-xs font-semibold border border-white/10 transition-colors"
+      >
+        <ShoppingBag className="w-3.5 h-3.5 text-emerald-400" />
+        <span>View Packs</span>
+      </a>
+
+      {/* Instant WhatsApp Order Primary CTA */}
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noreferrer"
+        className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-emerald-600 to-amber-500 text-stone-950 font-extrabold text-xs tracking-wide shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:scale-105 transition-transform"
+      >
+        <MessageCircle className="w-3.5 h-3.5 fill-stone-950 text-stone-950" />
+        <span>Order WhatsApp</span>
+        <Sparkles className="w-3 h-3 text-stone-950 hidden sm:inline" />
+      </a>
+    </div>
   )
 }

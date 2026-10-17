@@ -1,190 +1,276 @@
-import { useState, type FormEvent } from "react"
-import { MapPin, Phone, MessageSquare, Clock, Send } from "lucide-react"
-import { useLanguage } from "../../context/LanguageContext"
-import { translations } from "../../i18n/translations"
+import { useState } from "react"
+import { Phone, Mail, MapPin, Clock, MessageCircle, CheckCircle2, Sparkles } from "lucide-react"
+import { InstagramIcon, FacebookIcon } from "../icons/SocialIcons"
+import { PUROBITE_CONTACT } from "../../data/purobiteData"
 
 export default function Contact() {
-  const { lang } = useLanguage()
-  const t = translations[lang].contact
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    packPreference: "Signature Gourmet Tub (350g) - ₹399",
+    city: "Kolkata",
+    message: "",
+  })
+  const [submittedVia, setSubmittedVia] = useState<string | null>(null)
 
-  const [customerName, setCustomerName] = useState("")
-  const [deviceModel, setDeviceModel] = useState("")
-  const [issueSummary, setIssueSummary] = useState("")
-
-  const handleDispatch = (e: FormEvent) => {
+  const handleWhatsAppSend = (e: React.FormEvent) => {
     e.preventDefault()
-    const text = `Hello I REBOOT, my name is ${customerName || "Customer"}. I have a ${deviceModel || "Smartphone"} with this problem: ${issueSummary || "repair inquiry"}. Please let me know the quote and when I can visit 5A Lenin Sarani.`
-    window.open(`https://wa.me/918697323726?text=${encodeURIComponent(text)}`, "_blank")
+    const text = `Hello PuroBite!%0A• Name: ${formData.name || "Customer"}%0A• Phone: ${formData.phone || "Not provided"}%0A• Selected Pack: ${formData.packPreference}%0A• Delivery City: ${formData.city}%0A• Note: ${formData.message || "Please share availability and dispatch time."}`
+    window.open(`https://wa.me/918250755958?text=${text}`, "_blank")
+    setSubmittedVia("whatsapp")
+  }
+
+  const handleEmailSend = (e: React.FormEvent) => {
+    e.preventDefault()
+    const subject = encodeURIComponent(`PuroBite Order Inquiry - ${formData.packPreference}`)
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nPhone: ${formData.phone}\nPack: ${formData.packPreference}\nCity: ${formData.city}\nMessage: ${formData.message}`
+    )
+    window.location.href = `mailto:${PUROBITE_CONTACT.email}?subject=${subject}&body=${body}`
+    setSubmittedVia("email")
   }
 
   return (
-    <section id="contact" className="py-24 border-t border-zinc-800/80 relative">
+    <section id="contact" className="relative py-24 sm:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-950/60 border border-sky-500/20 text-xs font-mono text-sky-400 mb-3">
-            <MapPin className="w-3.5 h-3.5" />
-            <span>{t.tag}</span>
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 text-xs font-semibold mb-4 backdrop-blur-md">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Connect Directly With Us</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-            {t.title}
+          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-serif">
+            Get In Touch With <br />
+            <span className="bg-gradient-to-r from-amber-300 via-amber-200 to-emerald-400 bg-clip-text text-transparent">
+              The PuroBite Kitchen.
+            </span>
           </h2>
-          <p className="text-xs sm:text-sm font-mono text-zinc-400 mt-2">
-            {t.subtitle}
+          <p className="mt-4 text-stone-300 text-base sm:text-lg leading-relaxed">
+            Have questions about bulk orders, corporate gifting, custom dietary batches, or direct retail dispatch in Kolkata and across India? Reach out directly.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Shop Location & Contact Info */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="luxury-card rounded-3xl p-6 sm:p-8 space-y-6">
-              {/* Address */}
-              <div className="flex items-start gap-4">
-                <div className="w-11 h-11 rounded-2xl bg-sky-950/60 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0 shadow-lg shadow-sky-950/40">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-xs font-mono text-zinc-400 uppercase tracking-wider">{t.addressTitle}</div>
-                  <div className="text-base sm:text-lg font-bold text-white mt-1">
-                    {t.address1}
-                  </div>
-                  <div className="text-xs sm:text-sm font-mono text-cyan-300 mt-0.5">
-                    {t.address2}
-                  </div>
-                  <div className="text-xs text-zinc-400 mt-2 font-sans leading-relaxed">
-                    {t.landmark}
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+          {/* Left: 4 Direct Contact Cards */}
+          <div className="lg:col-span-5 flex flex-col gap-4">
+            {/* Phone Card */}
+            <a
+              href={PUROBITE_CONTACT.phoneTel}
+              className="glass-panel p-6 rounded-3xl flex items-center gap-5 hover:border-amber-400/50 group transition-all"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 group-hover:scale-110 transition-transform">
+                <Phone className="w-6 h-6" />
               </div>
-
-              {/* Timing & Hours */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-5 border-t border-zinc-800/80">
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-cyan-400 shrink-0">
-                    <Clock className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[11px] font-mono text-zinc-400 uppercase">{t.hoursTitle}</div>
-                    <div className="text-xs sm:text-sm font-semibold text-white mt-0.5">{t.hours}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center text-emerald-400 shrink-0">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[11px] font-mono text-zinc-400 uppercase">{t.callTitle}</div>
-                    <a href="tel:8697323726" className="text-xs sm:text-sm font-semibold text-cyan-300 hover:underline mt-0.5 block">
-                      {t.callNumber}
-                    </a>
-                  </div>
-                </div>
+              <div className="flex flex-col">
+                <span className="text-xs uppercase tracking-widest text-stone-400 font-semibold">
+                  Phone & Direct Orders
+                </span>
+                <span className="text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
+                  {PUROBITE_CONTACT.phoneDisplay}
+                </span>
+                <span className="text-[11px] text-emerald-400 mt-0.5">Click to call immediately</span>
               </div>
+            </a>
 
-              {/* Action Buttons */}
-              <div className="pt-5 border-t border-zinc-800/80 flex flex-col sm:flex-row gap-3.5">
-                <a
-                  href="tel:8697323726"
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-mono text-zinc-200 transition-colors"
-                >
-                  <Phone className="w-4 h-4 text-cyan-400" />
-                  <span>Call: +91 86973 23726</span>
-                </a>
-                <a
-                  href="https://wa.me/918697323726?text=Hello%20I%20REBOOT%2C%20I%20am%20coming%20to%20your%205A%20Lenin%20Sarani%20service%20centre."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-xs font-mono font-medium text-white transition-all shadow-lg shadow-sky-950/50"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>{t.whatsappLabel}</span>
-                </a>
+            {/* Email Card */}
+            <a
+              href={PUROBITE_CONTACT.emailMailto}
+              className="glass-panel p-6 rounded-3xl flex items-center gap-5 hover:border-emerald-400/50 group transition-all"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 group-hover:scale-110 transition-transform">
+                <Mail className="w-6 h-6" />
               </div>
-            </div>
+              <div className="flex flex-col">
+                <span className="text-xs uppercase tracking-widest text-stone-400 font-semibold">
+                  Official Email
+                </span>
+                <span className="text-lg font-bold text-white group-hover:text-emerald-300 transition-colors break-all">
+                  {PUROBITE_CONTACT.email}
+                </span>
+                <span className="text-[11px] text-stone-400 mt-0.5">Inquiries & Corporate Gifting</span>
+              </div>
+            </a>
 
-            {/* Embedded Google Map */}
-            <div className="luxury-card rounded-3xl overflow-hidden h-64 border border-zinc-800/80 shadow-xl">
-              <iframe
-                title="I REBOOT Mobile Service Centre Map"
-                src="https://maps.google.com/maps?q=5A%20Lenin%20Sarani%20Rd%2C%20Esplanade%2C%20Dharmatala%2C%20Taltala%2C%20Kolkata%20700013&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0, filter: "invert(90%) hue-rotate(180deg) brightness(95%) contrast(90%)" }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+            {/* Instagram Card */}
+            <a
+              href={PUROBITE_CONTACT.instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="glass-panel p-6 rounded-3xl flex items-center gap-5 hover:border-pink-500/50 group transition-all"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-500/20 via-pink-500/20 to-amber-500/20 border border-pink-500/30 flex items-center justify-center text-pink-400 group-hover:scale-110 transition-transform">
+                <InstagramIcon className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs uppercase tracking-widest text-stone-400 font-semibold">
+                  Instagram
+                </span>
+                <span className="text-xl font-bold text-white group-hover:text-pink-400 transition-colors">
+                  {PUROBITE_CONTACT.instagramHandle}
+                </span>
+                <span className="text-[11px] text-stone-400 mt-0.5">Follow our daily clean kitchen stories</span>
+              </div>
+            </a>
+
+            {/* Facebook Card */}
+            <a
+              href={PUROBITE_CONTACT.facebookUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="glass-panel p-6 rounded-3xl flex items-center gap-5 hover:border-blue-500/50 group transition-all"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
+                <FacebookIcon className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs uppercase tracking-widest text-stone-400 font-semibold">
+                  Facebook Community
+                </span>
+                <span className="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
+                  PuroBite Official
+                </span>
+                <span className="text-[11px] text-stone-400 mt-0.5">Join our clean snack movement</span>
+              </div>
+            </a>
+
+            {/* Location & Hours Card */}
+            <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/5 flex flex-col gap-3">
+              <div className="flex items-center gap-3 text-xs text-stone-300">
+                <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Handcrafted in <strong>Kolkata, West Bengal, India</strong></span>
+              </div>
+              <div className="flex items-center gap-3 text-xs text-stone-300">
+                <Clock className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>Operating Hours: <strong>{PUROBITE_CONTACT.hours}</strong></span>
+              </div>
             </div>
           </div>
 
-          {/* Quick Problem Dispatcher Form */}
-          <div className="lg:col-span-6">
-            <div className="luxury-card rounded-3xl p-6 sm:p-8 border border-zinc-800/80 shadow-2xl">
-              <div className="flex items-center gap-2.5 mb-6">
-                <div className="w-8 h-8 rounded-xl bg-cyan-950/80 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                  <Send className="w-4 h-4" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white tracking-tight">
-                    {t.formTitle}
-                  </h3>
-                  <p className="text-xs font-mono text-zinc-400">
-                    Direct WhatsApp dispatch to technician bench
-                  </p>
-                </div>
+          {/* Right: Glassmorphic Direct Order / Inquiry Form */}
+          <div className="lg:col-span-7">
+            <div className="glass-panel-emerald rounded-3xl p-7 sm:p-9 shadow-2xl relative">
+              <div className="border-b border-white/10 pb-5 mb-6">
+                <h3 className="text-2xl font-black text-white font-serif">
+                  Quick Dispatch / Inquiry Request
+                </h3>
+                <p className="text-xs text-stone-300 mt-1">
+                  Fill in your details below to instantly dispatch your inquiry via WhatsApp or Email.
+                </p>
               </div>
 
-              <form onSubmit={handleDispatch} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-300 mb-2">
-                    {t.nameLabel}
-                  </label>
-                  <input
-                    type="text"
-                    value={customerName}
-                    onChange={(e) => setCustomerName(e.target.value)}
-                    placeholder="e.g. Rahul Sen"
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-900/90 border border-zinc-800 text-sm text-white focus:outline-none focus:border-cyan-400 transition-colors font-sans"
-                    required
-                  />
+              {submittedVia && (
+                <div className="mb-6 p-4 rounded-2xl bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                  <span>
+                    Your inquiry has been compiled! Opening {submittedVia === "whatsapp" ? "WhatsApp" : "Email"}...
+                  </span>
+                </div>
+              )}
+
+              <form className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                      Your Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Priyanshu Sen"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-stone-500 text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                      Phone Number / WhatsApp
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-stone-500 text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                      Pack of Interest
+                    </label>
+                    <select
+                      value={formData.packPreference}
+                      onChange={(e) => setFormData({ ...formData, packPreference: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                    >
+                      <option value="Signature Gourmet Tub (350g) - ₹399">
+                        Signature Gourmet Tub (350g) - ₹399 [Bestseller]
+                      </option>
+                      <option value="Superfood Family Duo Pack (700g) - ₹749">
+                        Superfood Family Duo Pack (700g) - ₹749 [Save ₹149]
+                      </option>
+                      <option value="Artisanal Discovery Tub (200g) - ₹249">
+                        Artisanal Discovery Tub (200g) - ₹249
+                      </option>
+                      <option value="Bulk Corporate / Custom Gifting Order">
+                        Bulk Corporate / Custom Gifting Order
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                      Delivery City / Pin Code
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Kolkata, 700091"
+                      value={formData.city}
+                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-stone-500 text-sm focus:outline-none focus:border-amber-400 transition-colors"
+                    />
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-300 mb-2">
-                    {t.modelLabel}
-                  </label>
-                  <input
-                    type="text"
-                    value={deviceModel}
-                    onChange={(e) => setDeviceModel(e.target.value)}
-                    placeholder="e.g. iPhone 14 Pro / Samsung S23"
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-900/90 border border-zinc-800 text-sm text-white focus:outline-none focus:border-cyan-400 transition-colors font-sans"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-300 mb-2">
-                    {t.issueLabel}
+                  <label className="block text-xs font-semibold text-stone-300 mb-1.5">
+                    Specific Dietary Requests or Questions
                   </label>
                   <textarea
-                    rows={4}
-                    value={issueSummary}
-                    onChange={(e) => setIssueSummary(e.target.value)}
-                    placeholder="e.g. Screen glass cracked, touch working fine, need quote."
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-900/90 border border-zinc-800 text-sm text-white focus:outline-none focus:border-cyan-400 transition-colors font-sans"
-                    required
+                    rows={3}
+                    placeholder="e.g. Please confirm delivery timeline for Salt Lake, or dispatch 2 gift packs."
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white placeholder-stone-500 text-sm focus:outline-none focus:border-amber-400 transition-colors"
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-sky-600 via-blue-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white font-medium text-xs font-mono tracking-wider transition-all shadow-xl shadow-sky-950/60 hover:shadow-sky-600/30 cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>{t.submitBtn}</span>
-                </button>
+                {/* Dual Dispatch Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={handleWhatsAppSend}
+                    className="flex items-center justify-center gap-2.5 py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-amber-500 text-stone-950 font-black text-xs tracking-wider uppercase shadow-[0_0_24px_rgba(16,185,129,0.35)] hover:shadow-[0_0_32px_rgba(245,158,11,0.5)] transition-all cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-stone-950" />
+                    <span>Send via WhatsApp</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleEmailSend}
+                    className="flex items-center justify-center gap-2.5 py-3.5 px-4 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-stone-200 hover:text-white font-bold text-xs tracking-wider uppercase transition-all cursor-pointer"
+                  >
+                    <Mail className="w-4 h-4 text-emerald-400" />
+                    <span>Send via Email</span>
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-center gap-2 pt-2 text-[11px] text-stone-400">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Immediate human response from our culinary team in Kolkata</span>
+                </div>
               </form>
             </div>
           </div>
