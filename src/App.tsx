@@ -1,8 +1,7 @@
 import { useState } from "react"
 import Navbar from "./components/Navbar/Navbar"
 import Hero from "./components/Hero/Hero"
-import SuperfoodsGrid from "./components/Superfoods/SuperfoodsGrid"
-import NutritionShowcase from "./components/Nutrition/NutritionShowcase"
+import InteractiveFoodShowcase from "./components/InteractiveFoodShowcase/InteractiveFoodShowcase"
 import ProductPacks from "./components/Packs/ProductPacks"
 import Contact from "./components/Contact/Contact"
 import Footer from "./components/Footer/Footer"
@@ -30,8 +29,8 @@ export default function App() {
         <Navbar />
         <main>
           <Hero />
-          <SuperfoodsGrid />
-          <NutritionShowcase />
+          {/* Interactive 3D Food & Nutrition Showcase (Narrated by 3D Companion) */}
+          <InteractiveFoodShowcase />
           <ProductPacks />
           <Contact />
         </main>
