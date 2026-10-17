@@ -68,10 +68,16 @@ export default function Hero() {
 
           {/* Core Copy & Action (Clean, zero fluff, mobile optimized) */}
           <div className="w-full lg:col-span-6 lg:order-1 flex flex-col gap-4 sm:gap-5 text-center lg:text-left items-center lg:items-start">
-            {/* Clean Pill */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-amber-400/30 text-amber-300 text-xs font-semibold backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Handcrafted in Kolkata • 100% Natural</span>
+            {/* Clean Badges */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-amber-400/30 text-amber-300 text-xs font-semibold backdrop-blur-md">
+                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <span>Handcrafted in Kolkata • 100% Natural</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-[11px] font-mono">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>3D Wukong Active ⚡</span>
+              </div>
             </div>
 
             {/* Headline */}

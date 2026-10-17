@@ -6,20 +6,20 @@ export default function UnrealEngineIntro({ onComplete }: { onComplete: () => vo
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    // Stage 1: Fade from pure obsidian to "PUROBITE STUDIOS PRESENTS"
-    const t1 = setTimeout(() => setPhase("presents"), 300)
+    // Stage 1: Fade in "PUROBITE STUDIOS PRESENTS"
+    const t1 = setTimeout(() => setPhase("presents"), 150)
 
     // Stage 2: Golden Volumetric Logo Reveal
-    const t2 = setTimeout(() => setPhase("logo"), 1600)
+    const t2 = setTimeout(() => setPhase("logo"), 800)
 
     // Stage 3: Volumetric Light Flare Sweep
-    const t3 = setTimeout(() => setPhase("flare"), 3100)
+    const t3 = setTimeout(() => setPhase("flare"), 1600)
 
-    // Stage 4: Dissolve into Website
+    // Stage 4: Dissolve into Website (2.3s total)
     const t4 = setTimeout(() => {
       setPhase("exit")
-      setTimeout(onComplete, 600)
-    }, 4000)
+      setTimeout(onComplete, 400)
+    }, 2300)
 
     // Progress bar for cinematic feel
     const interval = setInterval(() => {
@@ -28,9 +28,9 @@ export default function UnrealEngineIntro({ onComplete }: { onComplete: () => vo
           clearInterval(interval)
           return 100
         }
-        return prev + 2.5
+        return prev + 5
       })
-    }, 100)
+    }, 80)
 
     return () => {
       clearTimeout(t1)
@@ -43,7 +43,8 @@ export default function UnrealEngineIntro({ onComplete }: { onComplete: () => vo
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-[#040806] overflow-hidden transition-opacity duration-700 select-none ${
+      onClick={onComplete}
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-[#040806] overflow-hidden transition-opacity duration-500 select-none cursor-pointer ${
         phase === "exit" ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >

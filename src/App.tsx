@@ -9,7 +9,7 @@ import Footer from "./components/Footer/Footer"
 import FloatingDock from "./components/FloatingDock/FloatingDock"
 import UnrealEngine4KBackground from "./components/Background/UnrealEngine4KBackground"
 import UnrealEngineIntro from "./components/Intro/UnrealEngineIntro"
-import ElectricShockCompanion from "./components/Effects/ElectricShockCompanion"
+import ThreeDCharacter from "./components/Effects/ThreeDCharacter"
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true)
@@ -22,8 +22,8 @@ export default function App() {
       {/* 2. 4K Unreal Ambient Background Animation (Embers & volumetric god rays) */}
       <UnrealEngine4KBackground />
 
-      {/* 3. Interactive Electric Mascot Companion (Runs on scroll, sprints to buttons and zaps on click) */}
-      <ElectricShockCompanion />
+      {/* 3. True 3D WebGL Mascot (Runs in 3D on scroll, leaps & casts thunderbolts on tap) */}
+      <ThreeDCharacter />
 
       {/* 4. Main Content Experience (Clean, Real & Mobile-Optimized) */}
       <div className="relative z-10">
