@@ -15,8 +15,6 @@ export default function Navbar() {
 
   const navLinks = [
     { label: "Banana Chew", href: "#hero" },
-    { label: "8 Superfoods", href: "#superfoods" },
-    { label: "Nutrition", href: "#nutrition" },
     { label: "Packs & Pricing", href: "#packs" },
     { label: "Contact", href: "#contact" },
   ]

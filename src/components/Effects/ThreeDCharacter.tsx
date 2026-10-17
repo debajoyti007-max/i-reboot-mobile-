@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import * as THREE from "three"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
+import { Sparkles, X, ArrowLeft, MessageCircle, Zap } from "lucide-react"
+import { PUROBITE_IMAGES } from "../../data/purobiteData"
 
 interface Spark {
   x: number
@@ -20,11 +22,68 @@ interface LightningBolt {
   life: number
 }
 
+interface TopicInfo {
+  id: string
+  title: string
+  pill: string
+  image: string
+  badge: string
+  story: string
+  stats: string[]
+}
+
+const TOPICS: Record<string, TopicInfo> = {
+  sugar: {
+    id: "sugar",
+    title: "Why Zero Added Cane Sugar?",
+    pill: "🍌 100% Fruit Base (0g Added Sugar)",
+    image: PUROBITE_IMAGES.hero,
+    badge: "100% Natural Fruit Sweetness",
+    story:
+      "Our ripe bananas are slow-dehydrated under precise controlled heat. This evaporates moisture while locking in 100% of the natural fruit fructose and dietary potassium. Zero cane sugar, zero brown sugar, zero syrups — pure clean fruit energy!",
+    stats: ["0.0g Added Sugar", "480mg Potassium", "Sustained Energy"],
+  },
+  superfoods: {
+    id: "superfoods",
+    title: "The 8 Whole Superfoods",
+    pill: "🌱 8 Whole Ingredients Inside",
+    image: PUROBITE_IMAGES.flatlay,
+    badge: "100% Whole Real Food",
+    story:
+      "Every bite is handcrafted with: Slow-Dehydrated Bananas, California Whole Almonds, Creamy Cashews, Roasted Pumpkin Seeds, Toasted White Sesame, Heritage Black Sesame, Golden Sunflower Seeds, and Chia & Melon Super-Seeds. Zero fillers, 0% palm oil, 100% vegan!",
+    stats: ["8 Superfoods", "0% Palm Oil", "100% Plant Fuel"],
+  },
+  nutrition: {
+    id: "nutrition",
+    title: "Lab-Verified Nutrition Breakdown",
+    pill: "⚖️ Nutrition Facts (Sugar, Protein, Fiber)",
+    image: PUROBITE_IMAGES.infographic,
+    badge: "Clean Label Lab Verified",
+    story:
+      "Per 100g: 385 kcal of steady fuel, 8.2g bioavailable plant protein, 6.8g prebiotic fiber for gut digestion, 13.6g heart-healthy nut fats (no trans fats), and 480mg natural electrolytes. No artificial preservatives or coloring.",
+    stats: ["385 kcal", "8.2g Protein", "6.8g Fiber"],
+  },
+  packs: {
+    id: "packs",
+    title: "Pack Sizes & Artisanal Ordering",
+    pill: "📦 Pack Sizes & Fresh Handcrafting",
+    image: PUROBITE_IMAGES.front,
+    badge: "Handcrafted to Order in Kolkata",
+    story:
+      "We prepare every tub fresh upon order in Kolkata and pack them in recyclable kraft tubs with airtight freshness seals (6 months shelf life). Available in 200g (₹249), 350g Bestseller (₹399), and 700g Family Duo (₹749) with 1-tap WhatsApp ordering!",
+    stats: ["200g Discovery", "350g Bestseller", "700g Duo"],
+  },
+}
+
 export default function ThreeDCharacter() {
   const threeCanvasRef = useRef<HTMLCanvasElement>(null)
   const lightningCanvasRef = useRef<HTMLCanvasElement>(null)
 
-  // Dynamic screen position: follows user and stays where you interact (never snaps back to a fixed corner box)
+  // Dialogue Assistant Modal State
+  const [isDialogueOpen, setIsDialogueOpen] = useState(false)
+  const [activeTopic, setActiveTopic] = useState<string | null>(null)
+
+  // Screen coordinates for 3D character
   const [screenPos, setScreenPos] = useState(() => ({
     x: typeof window !== "undefined" ? Math.max(20, window.innerWidth - 160) : 220,
     y: typeof window !== "undefined" ? Math.max(80, window.innerHeight - 240) : 450,
@@ -35,7 +94,6 @@ export default function ThreeDCharacter() {
   const isZappingRef = useRef(false)
   const facingAngleRef = useRef(Math.PI / 4)
 
-  // Keep target in bounds on window resize
   const clampPos = useCallback((x: number, y: number) => {
     if (typeof window === "undefined") return { x, y }
     const maxX = window.innerWidth - 150
@@ -46,6 +104,22 @@ export default function ThreeDCharacter() {
     }
   }, [])
 
+  // Auto-dismiss dialogue on scroll or touch outside
+  useEffect(() => {
+    if (!isDialogueOpen) return
+
+    let initialScroll = window.scrollY
+    const handleScrollToClose = () => {
+      if (Math.abs(window.scrollY - initialScroll) > 30) {
+        setIsDialogueOpen(false)
+        setActiveTopic(null)
+      }
+    }
+
+    window.addEventListener("scroll", handleScrollToClose, { passive: true })
+    return () => window.removeEventListener("scroll", handleScrollToClose)
+  }, [isDialogueOpen])
+
   // ==========================================
   // 1. THREE.JS 3D FOX ENGINE (100% Free CC0/Apache Model)
   // ==========================================
@@ -55,13 +129,11 @@ export default function ThreeDCharacter() {
 
     const size = 150
 
-    // Scene & Perspective Camera
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100)
     camera.position.set(0, 1.8, 4.6)
     camera.lookAt(0, 0.7, 0)
 
-    // Transparent WebGL Renderer (Zero background, zero border)
     const renderer = new THREE.WebGLRenderer({
       canvas,
       alpha: true,
@@ -73,7 +145,6 @@ export default function ThreeDCharacter() {
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.35
 
-    // Studio Lighting: Warm Amber Golden Rim + Electric Cyan Fill
     const ambientLight = new THREE.AmbientLight(0xfff7ed, 1.8)
     scene.add(ambientLight)
 
@@ -89,7 +160,6 @@ export default function ThreeDCharacter() {
     shockPointLight.position.set(0, 1, 1.5)
     scene.add(shockPointLight)
 
-    // Master Model Container
     const modelContainer = new THREE.Group()
     scene.add(modelContainer)
 
@@ -98,7 +168,6 @@ export default function ThreeDCharacter() {
     let runAction: THREE.AnimationAction | null = null
     let currentAnim = "survey"
 
-    // Load High-Quality Rigged Fox Model (Open-source Khronos Group glTF Asset)
     const loader = new GLTFLoader()
     const modelUrl = `${import.meta.env.BASE_URL}models/Fox.glb`
 
@@ -106,12 +175,10 @@ export default function ThreeDCharacter() {
       modelUrl,
       (gltf) => {
         const foxScene = gltf.scene
-        // Scale to ideal viewing size
         foxScene.scale.set(0.016, 0.016, 0.016)
         foxScene.position.set(0, 0, 0)
         modelContainer.add(foxScene)
 
-        // Set up skeletal animations
         mixer = new THREE.AnimationMixer(foxScene)
         const surveyClip = gltf.animations.find((a) => a.name === "Survey") || gltf.animations[0]
         const runClip = gltf.animations.find((a) => a.name === "Run") || gltf.animations[2]
@@ -119,18 +186,13 @@ export default function ThreeDCharacter() {
         if (surveyClip && runClip) {
           surveyAction = mixer.clipAction(surveyClip)
           runAction = mixer.clipAction(runClip)
-
-          // Start in idle looking around (Survey)
           surveyAction.play()
         }
       },
       undefined,
-      (err) => {
-        console.error("3D Model load error:", err)
-      }
+      (err) => console.error("Fox model error:", err)
     )
 
-    // 60FPS Render Loop
     let clock = new THREE.Clock()
     let animId: number
 
@@ -143,7 +205,6 @@ export default function ThreeDCharacter() {
 
         const isRunning = isRunningRef.current
 
-        // Seamless transition between Running and Idle (Survey)
         if (isRunning && currentAnim !== "run" && runAction && surveyAction) {
           surveyAction.fadeOut(0.2)
           runAction.reset().fadeIn(0.2).play()
@@ -155,14 +216,12 @@ export default function ThreeDCharacter() {
         }
       }
 
-      // Smooth rotation towards travel direction
       modelContainer.rotation.y = THREE.MathUtils.lerp(
         modelContainer.rotation.y,
         facingAngleRef.current,
         0.12
       )
 
-      // Electric surge flash when zapping
       if (isZappingRef.current) {
         shockPointLight.intensity = 6.0 + Math.random() * 4.0
         modelContainer.position.y = 0.15 + (Math.random() - 0.5) * 0.08
@@ -184,7 +243,7 @@ export default function ThreeDCharacter() {
   }, [])
 
   // ==========================================
-  // 2. DYNAMIC POSITIONING & LIGHTNING SYSTEM
+  // 2. DYNAMIC MOVEMENT & LIGHTNING ARCS
   // ==========================================
   useEffect(() => {
     const canvas = lightningCanvasRef.current
@@ -206,7 +265,6 @@ export default function ThreeDCharacter() {
     let bolts: LightningBolt[] = []
     let sparks: Spark[] = []
 
-    // Fractal lightning arc generator
     const createLightningBranch = (
       x1: number,
       y1: number,
@@ -233,9 +291,7 @@ export default function ThreeDCharacter() {
       return points
     }
 
-    // Touch/Click interaction: 3D character sprints to the touched button, shocks it, AND STAYS NEARBY
     const triggerSprintAndShock = (targetX: number, targetY: number) => {
-      // 1. Calculate new destination right beside the touched button
       const isRight = targetX > width / 2
       const newX = isRight ? targetX - 110 : targetX + 40
       const newY = targetY - 60
@@ -243,15 +299,11 @@ export default function ThreeDCharacter() {
       const clamped = clampPos(newX, newY)
       targetPosRef.current = clamped
 
-      // Point model towards the button
       facingAngleRef.current = isRight ? Math.PI / 2.5 : -Math.PI / 2.5
       isRunningRef.current = true
       isZappingRef.current = true
-
-      // Move companion smoothly to new position
       setScreenPos(clamped)
 
-      // 2. Generate electric shock arcs from character directly into touched button
       for (let i = 0; i < 4; i++) {
         const branch = createLightningBranch(
           clamped.x + 75,
@@ -260,15 +312,10 @@ export default function ThreeDCharacter() {
           targetY + (Math.random() - 0.5) * 30,
           65
         )
-        bolts.push({
-          points: branch,
-          alpha: 1,
-          life: 0.38,
-        })
+        bolts.push({ points: branch, alpha: 1, life: 0.38 })
       }
 
-      // 3. Burst of electric spark particles at touched element
-      for (let i = 0; i < 35; i++) {
+      for (let i = 0; i < 32; i++) {
         const angle = Math.random() * Math.PI * 2
         const speed = 2.5 + Math.random() * 8
         const life = 0.4 + Math.random() * 0.4
@@ -285,25 +332,25 @@ export default function ThreeDCharacter() {
         })
       }
 
-      // Settle down after reaching the button without snapping back to a fixed corner!
       window.setTimeout(() => {
         isZappingRef.current = false
         isRunningRef.current = false
       }, 500)
     }
 
-    // Intercept clicks on buttons & interactive links
     const handleGlobalClick = (e: MouseEvent | TouchEvent) => {
       const target = e.target as HTMLElement | null
-      const buttonEl = target?.closest("button, a, input, [role='button']")
-      if (buttonEl) {
+      // Avoid triggering button leaps if user is interacting with the dialogue assistant
+      if (target?.closest("#companion-dialogue")) return
+
+      const buttonEl = target?.closest("button, a, [role='button']")
+      if (buttonEl && !target?.closest("canvas")) {
         const rect = buttonEl.getBoundingClientRect()
         triggerSprintAndShock(rect.left + rect.width / 2, rect.top + rect.height / 2)
       }
     }
     window.addEventListener("click", handleGlobalClick as EventListener)
 
-    // Scroll tracking: character runs alongside the user as they scroll through sections
     let lastScrollY = window.scrollY
     let scrollTimeout: number
 
@@ -314,10 +361,8 @@ export default function ThreeDCharacter() {
 
       if (Math.abs(delta) > 1.2) {
         isRunningRef.current = true
-        // Turn in direction of scroll
         facingAngleRef.current = delta > 0 ? Math.PI / 1.8 : -Math.PI / 1.8
 
-        // Smoothly pace along the viewport height as user scrolls
         const scrollFactor = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1)
         const targetY = 90 + scrollFactor * (window.innerHeight - 250)
 
@@ -328,21 +373,18 @@ export default function ThreeDCharacter() {
         window.clearTimeout(scrollTimeout)
         scrollTimeout = window.setTimeout(() => {
           isRunningRef.current = false
-          facingAngleRef.current = Math.PI / 4 // Natural three-quarter resting pose
+          facingAngleRef.current = Math.PI / 4
         }, 160)
       }
     }
     window.addEventListener("scroll", handleScroll, { passive: true })
 
-    // Render loop for lightning arcs & particles
-    let lastTime = performance.now()
     const renderCanvas = (now: number) => {
       const dt = Math.min((now - lastTime) / 1000, 0.1)
       lastTime = now
 
       ctx.clearRect(0, 0, width, height)
 
-      // Draw Lightning Bolts
       for (let i = bolts.length - 1; i >= 0; i--) {
         const bolt = bolts[i]
         bolt.life -= dt
@@ -355,27 +397,21 @@ export default function ThreeDCharacter() {
           for (let p = 1; p < bolt.points.length; p++) {
             ctx.lineTo(bolt.points[p].x, bolt.points[p].y)
           }
-
-          // Electric Aura Glow
           ctx.shadowBlur = 18
           ctx.shadowColor = "rgba(250, 204, 21, 0.95)"
           ctx.strokeStyle = `rgba(254, 240, 138, ${bolt.alpha})`
           ctx.lineWidth = 3.5
           ctx.stroke()
 
-          // Pure White High-Voltage Core
           ctx.strokeStyle = `rgba(255, 255, 255, ${bolt.alpha})`
           ctx.lineWidth = 1.4
           ctx.stroke()
           ctx.restore()
         }
 
-        if (bolt.life <= 0) {
-          bolts.splice(i, 1)
-        }
+        if (bolt.life <= 0) bolts.splice(i, 1)
       }
 
-      // Draw Sparks
       for (let i = sparks.length - 1; i >= 0; i--) {
         const s = sparks[i]
         s.x += s.vx
@@ -394,13 +430,12 @@ export default function ThreeDCharacter() {
         ctx.fill()
         ctx.restore()
 
-        if (s.life <= 0) {
-          sparks.splice(i, 1)
-        }
+        if (s.life <= 0) sparks.splice(i, 1)
       }
 
       animId = requestAnimationFrame(renderCanvas)
     }
+    let lastTime = performance.now()
     animId = requestAnimationFrame(renderCanvas)
 
     return () => {
@@ -412,15 +447,25 @@ export default function ThreeDCharacter() {
     }
   }, [clampPos])
 
-  // Direct tap handler on character: plays thunder surge and playful hop
-  const handleDirectTap = () => {
+  // Direct Tap on 3D Character opens the Interactive Storyteller Menu
+  const handleDirectTap = (e: React.MouseEvent) => {
+    e.stopPropagation()
     isZappingRef.current = true
-    facingAngleRef.current = 0 // Look directly at user
+    facingAngleRef.current = 0 // Face user directly
+    setIsDialogueOpen(true)
+    setActiveTopic(null)
     setTimeout(() => {
       isZappingRef.current = false
-      facingAngleRef.current = Math.PI / 4
-    }, 600)
+    }, 450)
   }
+
+  const closeDialogue = () => {
+    setIsDialogueOpen(false)
+    setActiveTopic(null)
+    facingAngleRef.current = Math.PI / 4
+  }
+
+  const activeTopicData = activeTopic ? TOPICS[activeTopic] : null
 
   return (
     <>
@@ -439,14 +484,157 @@ export default function ThreeDCharacter() {
           left: 0,
         }}
       >
-        {/* Transparent, Borderless Three.js 3D WebGL Canvas */}
+        {/* Transparent Three.js 3D WebGL Canvas (Click to ask questions) */}
         <canvas
           ref={threeCanvasRef}
           onClick={handleDirectTap}
           className="w-[140px] h-[140px] sm:w-[155px] sm:h-[155px] pointer-events-auto cursor-pointer block filter drop-shadow-[0_8px_24px_rgba(245,158,11,0.4)]"
-          title="3D Companion"
+          title="Tap me to learn about Banana Chew!"
         />
       </div>
+
+      {/* 3. Interactive 3D Companion Dialogue Modal (Dismiss on scroll or tap outside) */}
+      {isDialogueOpen && (
+        <div
+          onClick={closeDialogue}
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+        >
+          <div
+            id="companion-dialogue"
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-lg rounded-3xl bg-gradient-to-b from-[#0f1f15] via-[#09140d] to-[#040805] border border-amber-400/40 p-5 sm:p-6 shadow-[0_0_50px_rgba(245,158,11,0.35)] backdrop-blur-2xl text-stone-100 relative max-h-[88vh] overflow-y-auto"
+          >
+            {/* Top Bar with Close Button */}
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-amber-400/20 border border-amber-400/50 flex items-center justify-center text-amber-300">
+                  <Zap className="w-4 h-4 fill-current" />
+                </div>
+                <div>
+                  <span className="text-xs font-mono font-bold text-amber-300 block">
+                    3D Companion Storyteller
+                  </span>
+                  <span className="text-[10px] text-stone-400">
+                    Handcrafted PuroBite Guide
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={closeDialogue}
+                className="p-1.5 rounded-full bg-white/10 hover:bg-white/15 text-stone-300 hover:text-white transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* View A: Menu Selection State */}
+            {!activeTopicData ? (
+              <div className="pt-4 flex flex-col gap-3">
+                <div className="text-center sm:text-left mb-1">
+                  <h3 className="text-lg sm:text-xl font-bold font-serif text-white">
+                    "Is there anything you want to know?"
+                  </h3>
+                  <p className="text-xs text-stone-300 mt-1">
+                    Tap any topic below to learn what makes PuroBite Banana Chew special:
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-2.5 pt-1">
+                  {Object.values(TOPICS).map((top) => (
+                    <button
+                      key={top.id}
+                      onClick={() => setActiveTopic(top.id)}
+                      className="w-full p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-amber-400/25 hover:border-amber-400/60 text-left flex items-center justify-between transition-all group cursor-pointer shadow-sm"
+                    >
+                      <span className="text-xs sm:text-sm font-semibold text-stone-100 group-hover:text-amber-200">
+                        {top.pill}
+                      </span>
+                      <Sparkles className="w-4 h-4 text-amber-400 opacity-60 group-hover:opacity-100 transition-opacity shrink-0 ml-2" />
+                    </button>
+                  ))}
+                </div>
+
+                <div className="pt-3 border-t border-white/10 text-center">
+                  <span className="text-[11px] font-mono text-stone-400">
+                    💡 Tip: Scroll or tap anywhere outside to close.
+                  </span>
+                </div>
+              </div>
+            ) : (
+              /* View B: Detailed Topic Presentation with Image, Story & Facts */
+              <div className="pt-4 flex flex-col gap-4">
+                <button
+                  onClick={() => setActiveTopic(null)}
+                  className="self-start inline-flex items-center gap-1.5 text-xs text-amber-300 hover:text-amber-200 font-semibold cursor-pointer"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Back to Topics</span>
+                </button>
+
+                {/* High-Res Photo Card */}
+                <div className="relative aspect-16/9 w-full rounded-2xl overflow-hidden bg-stone-950 border border-white/10 shadow-lg">
+                  <img
+                    src={activeTopicData.image}
+                    alt={activeTopicData.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-2.5 left-2.5 px-3 py-1 rounded-full bg-stone-950/80 border border-amber-400/40 text-[10px] font-bold text-amber-300 backdrop-blur-md">
+                    {activeTopicData.badge}
+                  </div>
+                </div>
+
+                {/* Narrative Headline & Story */}
+                <div>
+                  <h4 className="text-lg font-bold font-serif text-white mb-1.5">
+                    {activeTopicData.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-stone-200 leading-relaxed font-normal bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                    "{activeTopicData.story}"
+                  </p>
+                </div>
+
+                {/* 3 Metric Pills */}
+                <div className="grid grid-cols-3 gap-2">
+                  {activeTopicData.stats.map((st, i) => (
+                    <div
+                      key={i}
+                      className="p-2 rounded-xl bg-amber-400/[0.08] border border-amber-400/30 text-center"
+                    >
+                      <span className="text-[11px] font-bold text-amber-300 block">
+                        {st}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                  <button
+                    onClick={() => setActiveTopic(null)}
+                    className="text-xs text-stone-400 hover:text-white transition-colors"
+                  >
+                    Ask Another
+                  </button>
+
+                  <a
+                    href={`https://wa.me/918250755958?text=${encodeURIComponent(
+                      `Hello PuroBite! I'd like to order Banana Chew handcrafted pack.`
+                    )}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-stone-950 text-xs font-bold shadow-md cursor-pointer touch-press transition-all"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5" />
+                    <span>Order on WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </>
   )
 }

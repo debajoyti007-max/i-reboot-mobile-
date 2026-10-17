@@ -1,7 +1,6 @@
 import { useState } from "react"
 import Navbar from "./components/Navbar/Navbar"
 import Hero from "./components/Hero/Hero"
-import InteractiveFoodShowcase from "./components/InteractiveFoodShowcase/InteractiveFoodShowcase"
 import ProductPacks from "./components/Packs/ProductPacks"
 import Contact from "./components/Contact/Contact"
 import Footer from "./components/Footer/Footer"
@@ -21,7 +20,7 @@ export default function App() {
       {/* 2. 4K Unreal Ambient Background Animation (Embers & volumetric god rays) */}
       <UnrealEngine4KBackground />
 
-      {/* 3. True 3D WebGL Mascot (Runs in 3D on scroll, leaps & casts thunderbolts on tap) */}
+      {/* 3. True 3D WebGL Companion (Tap to ask questions, runs on scroll, zaps on button clicks) */}
       <ThreeDCharacter />
 
       {/* 4. Main Content Experience (Clean, Real & Mobile-Optimized) */}
@@ -29,8 +28,6 @@ export default function App() {
         <Navbar />
         <main>
           <Hero />
-          {/* Interactive 3D Food & Nutrition Showcase (Narrated by 3D Companion) */}
-          <InteractiveFoodShowcase />
           <ProductPacks />
           <Contact />
         </main>
