@@ -1,8 +1,11 @@
 import { Phone, MessageCircle, ShoppingBag, Sparkles } from "lucide-react"
 import { InstagramIcon } from "../icons/SocialIcons"
 import { PUROBITE_CONTACT } from "../../data/purobiteData"
+import { useCart } from "../../context/CartContext"
 
 export default function FloatingDock() {
+  const { totalCount, setIsCartOpen } = useCart()
+
   const whatsappUrl = `https://wa.me/918250755958?text=${encodeURIComponent(
     "Hello PuroBite! I'd like to order Banana Chew artisanal snack pack."
   )}`
@@ -30,14 +33,20 @@ export default function FloatingDock() {
         <InstagramIcon className="w-4 h-4" />
       </a>
 
-      {/* Jump to Packs */}
-      <a
-        href="#packs"
-        className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/5 hover:bg-emerald-950/40 text-stone-200 hover:text-emerald-300 text-xs font-semibold border border-white/10 transition-colors"
+      {/* Open Bag Button with Counter Badge */}
+      <button
+        onClick={() => setIsCartOpen(true)}
+        className="relative flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/5 hover:bg-emerald-950/40 text-stone-200 hover:text-emerald-300 text-xs font-semibold border border-white/10 transition-colors cursor-pointer"
+        aria-label="Open Cart Bag"
       >
         <ShoppingBag className="w-3.5 h-3.5 text-emerald-400" />
-        <span>View Packs</span>
-      </a>
+        <span>Bag</span>
+        {totalCount > 0 && (
+          <span className="flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-amber-400 text-stone-950 font-black text-[10px]">
+            {totalCount}
+          </span>
+        )}
+      </button>
 
       {/* Instant WhatsApp Order Primary CTA */}
       <a

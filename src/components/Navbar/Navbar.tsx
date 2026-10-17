@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react"
-import { Phone, MessageCircle, Menu, X, Sparkles, Leaf } from "lucide-react"
+import { Phone, MessageCircle, Menu, X, Sparkles, Leaf, ShoppingBag } from "lucide-react"
 import { InstagramIcon, FacebookIcon } from "../icons/SocialIcons"
 import { PUROBITE_CONTACT } from "../../data/purobiteData"
+import { useCart } from "../../context/CartContext"
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { totalCount, setIsCartOpen } = useCart()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,10 +19,11 @@ export default function Navbar() {
 
   const navLinks = [
     { label: "Banana Chew", href: "#hero" },
+    { label: "Why Choose Us", href: "#why-choose-us" },
     { label: "8 Superfoods", href: "#superfoods" },
     { label: "Nutritional Map", href: "#nutrition" },
     { label: "Packs & Pricing", href: "#packs" },
-    { label: "Handcrafted Story", href: "#craftsmanship" },
+    { label: "Our Journey", href: "#heritage" },
     { label: "Reviews", href: "#reviews" },
     { label: "Contact", href: "#contact" },
   ]
@@ -33,7 +36,7 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-[#030906]/80 backdrop-blur-2xl border-b border-emerald-900/30 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.7)]"
+          ? "bg-[#030906]/85 backdrop-blur-2xl border-b border-emerald-900/30 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.7)]"
           : "bg-transparent py-5"
       }`}
     >
@@ -64,12 +67,12 @@ export default function Navbar() {
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 px-3 py-1.5 rounded-full bg-stone-900/40 backdrop-blur-md border border-white/10 shadow-inner">
+          <nav className="hidden xl:flex items-center gap-1 px-3 py-1.5 rounded-full bg-stone-900/40 backdrop-blur-md border border-white/10 shadow-inner">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="px-3 py-1.5 text-xs xl:text-sm font-medium text-stone-300 hover:text-amber-300 rounded-full hover:bg-white/5 transition-all"
+                className="px-3 py-1.5 text-xs font-medium text-stone-300 hover:text-amber-300 rounded-full hover:bg-white/5 transition-all"
               >
                 {link.label}
               </a>
@@ -81,7 +84,7 @@ export default function Navbar() {
             {/* Phone Quick Call */}
             <a
               href={PUROBITE_CONTACT.phoneTel}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-amber-400/40 text-stone-200 text-xs font-medium transition-all group"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-amber-400/40 text-stone-200 text-xs font-medium transition-all group"
               title="Call PuroBite"
             >
               <Phone className="w-3.5 h-3.5 text-amber-400 group-hover:scale-110 transition-transform" />
@@ -110,21 +113,49 @@ export default function Navbar() {
               </a>
             </div>
 
+            {/* Interactive Cart Button (VNPR Foods style) */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/15 text-stone-200 hover:text-amber-300 transition-all cursor-pointer"
+              title="Open Artisanal Bag"
+              aria-label="Open Cart"
+            >
+              <ShoppingBag className="w-4 h-4" />
+              {totalCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-gradient-to-r from-amber-500 to-emerald-500 text-[10px] font-black text-stone-950 shadow-md animate-in zoom-in">
+                  {totalCount}
+                </span>
+              )}
+            </button>
+
             {/* WhatsApp CTA Button */}
             <a
               href={whatsappOrderUrl}
               target="_blank"
               rel="noreferrer"
-              className="relative group overflow-hidden flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-amber-500 text-stone-950 font-bold text-xs tracking-wide shadow-[0_0_24px_rgba(16,185,129,0.35)] hover:shadow-[0_0_32px_rgba(245,158,11,0.5)] transition-all transform hover:-translate-y-0.5"
+              className="relative group overflow-hidden flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 via-emerald-500 to-amber-500 text-stone-950 font-bold text-xs tracking-wide shadow-[0_0_24px_rgba(16,185,129,0.35)] hover:shadow-[0_0_32px_rgba(245,158,11,0.5)] transition-all transform hover:-translate-y-0.5"
             >
               <MessageCircle className="w-4 h-4 text-stone-950 fill-stone-950" />
-              <span>Order on WhatsApp</span>
+              <span className="hidden md:inline">WhatsApp Order</span>
               <Sparkles className="w-3.5 h-3.5 text-stone-950 animate-pulse" />
             </a>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Mobile Menu & Cart Controls */}
           <div className="flex sm:hidden items-center gap-2">
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2 rounded-lg bg-white/10 text-stone-200 border border-white/10"
+              aria-label="Open Cart"
+            >
+              <ShoppingBag className="w-5 h-5 text-amber-300" />
+              {totalCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-[16px] h-[16px] px-1 rounded-full bg-amber-400 text-[9px] font-black text-stone-950">
+                  {totalCount}
+                </span>
+              )}
+            </button>
+
             <a
               href={whatsappOrderUrl}
               target="_blank"
@@ -134,6 +165,7 @@ export default function Navbar() {
             >
               <MessageCircle className="w-4 h-4" />
             </a>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg bg-white/5 border border-white/10 text-stone-200 hover:text-amber-400"
@@ -161,6 +193,17 @@ export default function Navbar() {
             ))}
 
             <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  setIsCartOpen(true)
+                }}
+                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-white/[0.08] border border-white/15 text-white text-sm font-bold"
+              >
+                <ShoppingBag className="w-4 h-4 text-amber-400" />
+                <span>View Bag ({totalCount} items)</span>
+              </button>
+
               <a
                 href={PUROBITE_CONTACT.phoneTel}
                 className="flex items-center justify-center gap-2 py-3 rounded-xl bg-white/[0.05] border border-white/10 text-stone-200 text-sm font-medium"

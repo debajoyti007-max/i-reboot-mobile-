@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { Check, Sparkles, MessageCircle, Phone, ShoppingBag, Plus, Minus, Truck } from "lucide-react"
-import { PRODUCT_PACKS, PUROBITE_CONTACT } from "../../data/purobiteData"
+import { PRODUCT_PACKS, PUROBITE_CONTACT, PUROBITE_IMAGES } from "../../data/purobiteData"
+import { useCart } from "../../context/CartContext"
 
 export default function ProductPacks() {
+  const { addToCart } = useCart()
   const [quantities, setQuantities] = useState<Record<string, number>>({
     taster: 0,
     signature: 1,
@@ -139,23 +141,44 @@ export default function ProductPacks() {
                     </div>
                   </div>
 
-                  <a
-                    href={`https://wa.me/918250755958?text=${encodeURIComponent(
-                      `Hello PuroBite! I'd like to order: ${qty > 0 ? qty : 1}x ${pack.name} (${pack.weight}) - Total: ₹${
-                        pack.price * (qty > 0 ? qty : 1)
-                      }. Please confirm order details.`
-                    )}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-xs tracking-wide transition-all ${
-                      isRecommended
-                        ? "bg-gradient-to-r from-amber-400 to-emerald-500 text-stone-950 shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:shadow-[0_0_30px_rgba(245,158,11,0.6)]"
-                        : "bg-white/10 hover:bg-white/15 text-white border border-white/15"
-                    }`}
-                  >
-                    <MessageCircle className="w-4 h-4 fill-current" />
-                    <span>Order {pack.name} on WhatsApp</span>
-                  </a>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() =>
+                        addToCart(
+                          {
+                            id: pack.id,
+                            name: pack.name,
+                            weight: pack.weight,
+                            price: pack.price,
+                            image: PUROBITE_IMAGES.front,
+                          },
+                          qty > 0 ? qty : 1
+                        )
+                      }
+                      className="flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-stone-200 hover:text-white border border-white/15 text-xs font-bold transition-all cursor-pointer"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5 text-amber-400" />
+                      <span>Add to Bag</span>
+                    </button>
+
+                    <a
+                      href={`https://wa.me/918250755958?text=${encodeURIComponent(
+                        `Hello PuroBite! I'd like to order: ${qty > 0 ? qty : 1}x ${pack.name} (${pack.weight}) - Total: ₹${
+                          pack.price * (qty > 0 ? qty : 1)
+                        }. Please confirm order details.`
+                      )}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`flex items-center justify-center gap-1.5 py-3 rounded-xl font-bold text-xs tracking-wide transition-all ${
+                        isRecommended
+                          ? "bg-gradient-to-r from-amber-400 to-emerald-500 text-stone-950 shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:shadow-[0_0_30px_rgba(245,158,11,0.6)]"
+                          : "bg-emerald-600 hover:bg-emerald-500 text-stone-950"
+                      }`}
+                    >
+                      <MessageCircle className="w-3.5 h-3.5 fill-current" />
+                      <span>Buy Direct</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             )
