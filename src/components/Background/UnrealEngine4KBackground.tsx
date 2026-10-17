@@ -73,23 +73,24 @@ export default function UnrealEngine4KBackground() {
     window.addEventListener("touchmove", onTouchMove, { passive: true })
 
     // Initialize 3D Volumetric Botanical Spores & Golden Embers
-    const PARTICLE_COUNT = 90
+    const isMobile = width < 768
+    const PARTICLE_COUNT = isMobile ? 45 : 75
     const particles: Particle3D[] = []
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-      // 70% golden/amber embers, 30% emerald botanical spores
-      const isGold = Math.random() > 0.28
+      // 80% champagne gold embers, 20% soft botanical spores
+      const isGold = Math.random() > 0.2
       particles.push({
-        x: (Math.random() - 0.5) * width * 1.6,
-        y: (Math.random() - 0.5) * height * 1.6,
+        x: (Math.random() - 0.5) * width * 1.5,
+        y: (Math.random() - 0.5) * height * 1.5,
         z: 0.35 + Math.random() * 2.3, // 0.35 = close bokeh, 2.65 = deep background
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: -0.2 - Math.random() * 0.45, // Gentle natural upward drift like organic embers
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: -0.15 - Math.random() * 0.35, // Gentle natural upward drift like organic embers
         vz: (Math.random() - 0.5) * 0.002,
-        baseRadius: 1.4 + Math.random() * 3.8,
-        hue: isGold ? 36 + Math.random() * 12 : 145 + Math.random() * 25,
-        alpha: 0.25 + Math.random() * 0.65,
-        pulseSpeed: 0.015 + Math.random() * 0.025,
+        baseRadius: 1.2 + Math.random() * 3.2,
+        hue: isGold ? 38 + Math.random() * 10 : 142 + Math.random() * 20,
+        alpha: 0.2 + Math.random() * 0.55,
+        pulseSpeed: 0.012 + Math.random() * 0.02,
         pulseOffset: Math.random() * Math.PI * 2,
       })
     }
@@ -107,7 +108,7 @@ export default function UnrealEngine4KBackground() {
       mouse.y += (mouse.targetY - mouse.y) * 0.05
 
       // Base Obsidian Evergreen Canvas
-      ctx.fillStyle = "#030906"
+      ctx.fillStyle = "#060b08"
       ctx.fillRect(0, 0, width, height)
 
       // 1. VOLUMETRIC ATMOSPHERIC NEBULAS (Unreal Lumen Ambient Lighting)

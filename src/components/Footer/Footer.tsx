@@ -64,38 +64,33 @@ export default function Footer() {
 
           {/* Quick Navigation Links */}
           <div className="lg:col-span-3 flex flex-col gap-3">
-            <h4 className="text-xs uppercase tracking-widest text-amber-400 font-bold">
-              Product & Standards
+            <h4 className="text-xs uppercase tracking-widest text-amber-300 font-bold">
+              Explore
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <a href="#hero" className="hover:text-amber-300 transition-colors">
-                  Artisanal Banana Chew
+                <a href="#hero" className="hover:text-amber-200 transition-colors">
+                  Banana Chew
                 </a>
               </li>
               <li>
-                <a href="#superfoods" className="hover:text-amber-300 transition-colors">
+                <a href="#superfoods" className="hover:text-amber-200 transition-colors">
                   The 8 Superfoods
                 </a>
               </li>
               <li>
-                <a href="#nutrition" className="hover:text-amber-300 transition-colors">
-                  Lab Nutritional Analysis
+                <a href="#nutrition" className="hover:text-amber-200 transition-colors">
+                  Nutrition Facts
                 </a>
               </li>
               <li>
-                <a href="#packs" className="hover:text-amber-300 transition-colors">
-                  Packs & Direct Dispatch
+                <a href="#packs" className="hover:text-amber-200 transition-colors">
+                  Packs & Direct Order
                 </a>
               </li>
               <li>
-                <a href="#craftsmanship" className="hover:text-amber-300 transition-colors">
-                  Slow-Dehydration Method
-                </a>
-              </li>
-              <li>
-                <a href="#reviews" className="hover:text-amber-300 transition-colors">
-                  Customer Testimonials
+                <a href="#contact" className="hover:text-amber-200 transition-colors">
+                  Kitchen Contacts
                 </a>
               </li>
             </ul>

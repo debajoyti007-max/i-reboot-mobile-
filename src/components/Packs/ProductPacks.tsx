@@ -1,249 +1,119 @@
-import { useState } from "react"
-import { Check, Sparkles, MessageCircle, Phone, ShoppingBag, Plus, Minus, Truck } from "lucide-react"
+import { Check, MessageCircle, Phone, Sparkles, Package } from "lucide-react"
 import { PRODUCT_PACKS, PUROBITE_CONTACT, PUROBITE_IMAGES } from "../../data/purobiteData"
-import { useCart } from "../../context/CartContext"
 
 export default function ProductPacks() {
-  const { addToCart } = useCart()
-  const [quantities, setQuantities] = useState<Record<string, number>>({
-    taster: 0,
-    signature: 1,
-    "duo-family": 0,
-  })
-
-  const updateQuantity = (packId: string, delta: number) => {
-    setQuantities((prev) => {
-      const current = prev[packId] || 0
-      const next = Math.max(0, current + delta)
-      return { ...prev, [packId]: next }
-    })
-  }
-
-  // Calculate cart total
-  const totalItems = Object.values(quantities).reduce((acc, qty) => acc + qty, 0)
-  const totalPrice = PRODUCT_PACKS.reduce((acc, pack) => {
-    const qty = quantities[pack.id] || 0
-    return acc + pack.price * qty
-  }, 0)
-
-  // Build custom WhatsApp order string
-  const selectedPacksSummary = PRODUCT_PACKS.filter((p) => (quantities[p.id] || 0) > 0)
-    .map((p) => `${quantities[p.id]}x ${p.name} (${p.weight}) - ₹${p.price * quantities[p.id]}`)
-    .join(", ")
-
-  const whatsappMessage = totalItems > 0
-    ? `Hello PuroBite! I would like to place an order:%0A• ${selectedPacksSummary}%0A• Total Amount: ₹${totalPrice}%0A%0APlease let me know the dispatch details and payment options (UPI / COD). Thank you!`
-    : `Hello PuroBite! I'm interested in ordering the Banana Chew Signature Gourmet Tub (₹399). Please share delivery details.`
-
-  const whatsappUrl = `https://wa.me/918250755958?text=${whatsappMessage}`
-
   return (
-    <section id="packs" className="relative py-24 sm:py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="packs" className="relative py-16 sm:py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 text-xs font-semibold mb-4 backdrop-blur-md">
-            <ShoppingBag className="w-3.5 h-3.5 text-amber-400" />
-            <span>Direct Kitchen Dispatch</span>
+        <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-amber-400/30 text-amber-300 text-xs font-semibold mb-3 backdrop-blur-md">
+            <Package className="w-3.5 h-3.5 text-amber-400" />
+            <span>Artisanal Small-Batch Packs</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight font-serif">
-            Select Your Artisanal <br />
-            <span className="bg-gradient-to-r from-amber-300 via-amber-200 to-emerald-400 bg-clip-text text-transparent">
-              Banana Chew Pack.
-            </span>
+          <h2 className="text-2xl sm:text-4xl font-black text-white font-serif tracking-tight">
+            Order Fresh <span className="text-amber-300">Banana Chew</span>
           </h2>
-          <p className="mt-4 text-stone-300 text-base sm:text-lg leading-relaxed">
-            Freshly batch-crafted upon order to ensure maximum nut crunch, natural aroma, and dense chewy texture. Ships direct to your doorstep.
+          <p className="mt-2 text-stone-400 text-xs sm:text-sm leading-relaxed">
+            Freshly batch-crafted upon order in Kolkata. Sealed in recyclable kraft tubs with airtight freshness barriers.
           </p>
         </div>
 
         {/* 3 Pack Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           {PRODUCT_PACKS.map((pack) => {
-            const qty = quantities[pack.id] || 0
-            const isRecommended = pack.recommended
+            const isBestseller = pack.recommended
+            const whatsappOrderUrl = `https://wa.me/918250755958?text=${encodeURIComponent(
+              `Hello PuroBite! I'd like to order: 1x ${pack.name} (${pack.weight}) - ₹${pack.price}. Please confirm delivery details for my address.`
+            )}`
 
             return (
               <div
                 key={pack.id}
-                className={`relative rounded-3xl p-7 flex flex-col justify-between transition-all duration-300 ${
-                  isRecommended
-                    ? "glass-panel-gold ring-2 ring-amber-400/50 shadow-[0_25px_60px_-15px_rgba(245,158,11,0.25)] lg:-translate-y-3"
+                className={`relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 ${
+                  isBestseller
+                    ? "glass-panel-gold ring-1 ring-amber-400/40 shadow-2xl md:-translate-y-2"
                     : "glass-panel hover:border-white/20"
                 }`}
               >
-                {/* Highlight Badge */}
+                {/* Bestseller Badge */}
                 {pack.badge && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-amber-500 to-emerald-600 text-stone-950 text-xs font-extrabold uppercase tracking-wider shadow-lg flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 fill-stone-950" />
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3.5 py-1 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-stone-950 text-[10px] font-black uppercase tracking-wider shadow-md flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 fill-stone-950" />
                     <span>{pack.badge}</span>
                   </div>
                 )}
 
                 <div>
+                  {/* Photo thumbnail of the real pack */}
+                  <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-stone-950 mb-5 border border-white/10">
+                    <img
+                      src={pack.id === "taster" ? PUROBITE_IMAGES.front : pack.id === "signature" ? PUROBITE_IMAGES.hero : PUROBITE_IMAGES.table}
+                      alt={pack.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
                   {/* Title & Weight */}
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <h3 className="text-xl sm:text-2xl font-black text-white font-serif">
+                  <div className="mb-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-white font-serif">
                       {pack.name}
                     </h3>
+                    <span className="text-xs text-amber-300/90 font-medium">
+                      {pack.weight}
+                    </span>
                   </div>
-                  <span className="inline-block px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-amber-300 mb-4">
-                    {pack.weight}
-                  </span>
 
                   {/* Price Block */}
-                  <div className="flex items-baseline gap-3 mb-4">
-                    <span className="text-4xl font-black text-white">₹{pack.price}</span>
+                  <div className="flex items-baseline gap-2.5 my-3">
+                    <span className="text-3xl font-black text-white">₹{pack.price}</span>
                     {pack.originalPrice && (
-                      <span className="text-base text-stone-500 line-through">
+                      <span className="text-sm text-stone-500 line-through">
                         ₹{pack.originalPrice}
                       </span>
                     )}
-                    <span className="text-xs text-emerald-400 font-semibold">Taxes Included</span>
+                    <span className="text-[11px] text-emerald-400 font-semibold">Fresh Batch</span>
                   </div>
 
                   {/* Description */}
-                  <p className="text-stone-300 text-xs sm:text-sm leading-relaxed mb-6">
+                  <p className="text-stone-300 text-xs leading-relaxed mb-5">
                     {pack.description}
                   </p>
 
-                  {/* Features List */}
-                  <ul className="space-y-2.5 mb-8">
+                  {/* Bullet points */}
+                  <ul className="space-y-2 mb-6 text-xs text-stone-300">
                     {pack.features.map((feat) => (
-                      <li key={feat} className="flex items-center gap-2.5 text-xs text-stone-300">
-                        <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <li key={feat} className="flex items-center gap-2">
+                        <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                         <span>{feat}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                {/* Interactive Quantity & Direct Order */}
-                <div className="pt-5 border-t border-white/10 flex flex-col gap-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-stone-400 font-medium">Quantity:</span>
-                    <div className="flex items-center gap-3 px-3 py-1.5 rounded-xl bg-black/40 border border-white/15">
-                      <button
-                        onClick={() => updateQuantity(pack.id, -1)}
-                        className="p-1 rounded text-stone-400 hover:text-white hover:bg-white/10 transition-colors"
-                        aria-label="Decrease quantity"
-                      >
-                        <Minus className="w-3.5 h-3.5" />
-                      </button>
-                      <span className="text-sm font-bold text-white w-6 text-center">{qty}</span>
-                      <button
-                        onClick={() => updateQuantity(pack.id, 1)}
-                        className="p-1 rounded text-stone-400 hover:text-white hover:bg-white/10 transition-colors"
-                        aria-label="Increase quantity"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
+                {/* Direct 1-Tap WhatsApp Order Button */}
+                <div className="pt-4 border-t border-white/10 flex flex-col gap-2">
+                  <a
+                    href={whatsappOrderUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-stone-950 font-black text-xs uppercase tracking-wider shadow-lg transition-all touch-press cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-stone-950" />
+                    <span>Order via WhatsApp</span>
+                  </a>
 
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() =>
-                        addToCart(
-                          {
-                            id: pack.id,
-                            name: pack.name,
-                            weight: pack.weight,
-                            price: pack.price,
-                            image: PUROBITE_IMAGES.front,
-                          },
-                          qty > 0 ? qty : 1
-                        )
-                      }
-                      className="flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-stone-200 hover:text-white border border-white/15 text-xs font-bold transition-all cursor-pointer"
-                    >
-                      <ShoppingBag className="w-3.5 h-3.5 text-amber-400" />
-                      <span>Add to Bag</span>
-                    </button>
-
-                    <a
-                      href={`https://wa.me/918250755958?text=${encodeURIComponent(
-                        `Hello PuroBite! I'd like to order: ${qty > 0 ? qty : 1}x ${pack.name} (${pack.weight}) - Total: ₹${
-                          pack.price * (qty > 0 ? qty : 1)
-                        }. Please confirm order details.`
-                      )}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`flex items-center justify-center gap-1.5 py-3 rounded-xl font-bold text-xs tracking-wide transition-all ${
-                        isRecommended
-                          ? "bg-gradient-to-r from-amber-400 to-emerald-500 text-stone-950 shadow-[0_0_20px_rgba(245,158,11,0.4)] hover:shadow-[0_0_30px_rgba(245,158,11,0.6)]"
-                          : "bg-emerald-600 hover:bg-emerald-500 text-stone-950"
-                      }`}
-                    >
-                      <MessageCircle className="w-3.5 h-3.5 fill-current" />
-                      <span>Buy Direct</span>
-                    </a>
-                  </div>
+                  <a
+                    href={PUROBITE_CONTACT.phoneTel}
+                    className="flex items-center justify-center gap-1.5 py-2 text-[11px] text-stone-400 hover:text-amber-300 transition-colors"
+                  >
+                    <Phone className="w-3 h-3 text-amber-300" />
+                    <span>Or call {PUROBITE_CONTACT.phoneDisplay}</span>
+                  </a>
                 </div>
               </div>
             )
           })}
-        </div>
-
-        {/* Live Order Bar (If items selected) */}
-        {totalItems > 0 && (
-          <div className="mt-10 p-5 rounded-3xl bg-gradient-to-r from-emerald-950 via-stone-900 to-amber-950 border border-amber-500/40 backdrop-blur-2xl shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center text-amber-400 font-extrabold text-lg">
-                {totalItems}
-              </div>
-              <div className="flex flex-col">
-                <span className="text-white font-bold text-base">Your Custom Box Selection</span>
-                <span className="text-xs text-stone-300">
-                  Total Value: <strong className="text-amber-400 text-base">₹{totalPrice}</strong> ({totalItems} packs)
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-amber-400 text-stone-950 font-black text-sm tracking-wide shadow-xl hover:scale-105 transition-transform"
-              >
-                <MessageCircle className="w-4 h-4 fill-stone-950" />
-                <span>Confirm Order via WhatsApp</span>
-              </a>
-              <a
-                href={PUROBITE_CONTACT.phoneTel}
-                className="p-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-stone-200"
-                title="Call to Order"
-              >
-                <Phone className="w-4 h-4 text-amber-400" />
-              </a>
-            </div>
-          </div>
-        )}
-
-        {/* Delivery & Kitchen Trust Banner */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center gap-3">
-            <Truck className="w-5 h-5 text-emerald-400 shrink-0" />
-            <div className="flex flex-col">
-              <span className="text-xs font-bold text-white">Speedy Metro Delivery</span>
-              <span className="text-[11px] text-stone-400">24-48 hr courier in Kolkata & Bengal</span>
-            </div>
-          </div>
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center gap-3">
-            <Sparkles className="w-5 h-5 text-amber-400 shrink-0" />
-            <div className="flex flex-col">
-              <span className="text-xs font-bold text-white">Guaranteed Fresh Batch</span>
-              <span className="text-[11px] text-stone-400">Handcrafted in small hygienic batches</span>
-            </div>
-          </div>
-          <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 flex items-center gap-3">
-            <Phone className="w-5 h-5 text-emerald-400 shrink-0" />
-            <div className="flex flex-col">
-              <span className="text-xs font-bold text-white">Direct Kitchen Line</span>
-              <span className="text-[11px] text-stone-400">{PUROBITE_CONTACT.phoneDisplay}</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
