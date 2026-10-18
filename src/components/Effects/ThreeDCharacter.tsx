@@ -475,22 +475,31 @@ export default function ThreeDCharacter() {
         className="fixed inset-0 pointer-events-none z-50 w-full h-full"
       />
 
-      {/* 2. Free-Roaming 3D Mascot (ZERO box, ZERO background, ZERO text) */}
+      {/* 2. Free-Roaming 3D Mascot with Aesthetic Luxury Concierge Pill */}
       <div
-        className="fixed z-40 select-none pointer-events-none flex items-center justify-center transition-all duration-300 ease-out"
+        className="fixed z-40 select-none pointer-events-none flex flex-col items-center justify-center transition-all duration-300 ease-out"
         style={{
           transform: `translate3d(${screenPos.x}px, ${screenPos.y}px, 0)`,
           top: 0,
           left: 0,
         }}
       >
-        {/* Transparent Three.js 3D WebGL Canvas (Click to ask questions) */}
+        {/* Transparent Three.js 3D WebGL Canvas */}
         <canvas
           ref={threeCanvasRef}
           onClick={handleDirectTap}
-          className="w-[140px] h-[140px] sm:w-[155px] sm:h-[155px] pointer-events-auto cursor-pointer block filter drop-shadow-[0_8px_24px_rgba(245,158,11,0.4)]"
+          className="w-[130px] h-[130px] sm:w-[150px] sm:h-[150px] pointer-events-auto cursor-pointer block filter drop-shadow-[0_8px_24px_rgba(245,158,11,0.35)]"
           title="Tap me to learn about Banana Chew!"
         />
+
+        {/* Minimal Luxury Concierge Pill */}
+        <button
+          onClick={handleDirectTap}
+          className="pointer-events-auto -mt-2 px-2.5 py-0.5 rounded-full bg-[#050a07]/90 border border-amber-400/40 text-[9px] font-bold text-amber-300 backdrop-blur-md shadow-[0_4px_15px_rgba(0,0,0,0.8)] flex items-center gap-1 cursor-pointer hover:border-amber-400 hover:text-amber-200 transition-all touch-press"
+        >
+          <Sparkles className="w-2.5 h-2.5 text-amber-400" />
+          <span>Ask Concierge</span>
+        </button>
       </div>
 
       {/* 3. Interactive 3D Companion Dialogue Modal (Dismiss on scroll or tap outside) */}
@@ -533,10 +542,10 @@ export default function ThreeDCharacter() {
             {!activeTopicData ? (
               <div className="pt-4 flex flex-col gap-3">
                 <div className="text-center sm:text-left mb-1">
-                  <h3 className="text-lg sm:text-xl font-bold font-serif text-white">
+                  <h3 className="text-xl sm:text-2xl font-bold font-serif-luxury text-white">
                     "Is there anything you want to know?"
                   </h3>
-                  <p className="text-xs text-stone-300 mt-1">
+                  <p className="text-xs text-stone-300 mt-1 font-light">
                     Tap any topic below to learn what makes PuroBite Banana Chew special:
                   </p>
                 </div>
@@ -546,7 +555,7 @@ export default function ThreeDCharacter() {
                     <button
                       key={top.id}
                       onClick={() => setActiveTopic(top.id)}
-                      className="w-full p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-amber-400/25 hover:border-amber-400/60 text-left flex items-center justify-between transition-all group cursor-pointer shadow-sm"
+                      className="w-full p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-amber-400/25 hover:border-amber-400/60 text-left flex items-center justify-between transition-all group cursor-pointer shadow-sm touch-press"
                     >
                       <span className="text-xs sm:text-sm font-semibold text-stone-100 group-hover:text-amber-200">
                         {top.pill}
@@ -587,10 +596,10 @@ export default function ThreeDCharacter() {
 
                 {/* Narrative Headline & Story */}
                 <div>
-                  <h4 className="text-lg font-bold font-serif text-white mb-1.5">
+                  <h4 className="text-xl font-bold font-serif-luxury text-white mb-1.5">
                     {activeTopicData.title}
                   </h4>
-                  <p className="text-xs sm:text-sm text-stone-200 leading-relaxed font-normal bg-white/[0.03] p-3 rounded-xl border border-white/5">
+                  <p className="text-xs sm:text-sm text-stone-200 leading-relaxed font-light bg-white/[0.03] p-3.5 rounded-xl border border-white/5">
                     "{activeTopicData.story}"
                   </p>
                 </div>
