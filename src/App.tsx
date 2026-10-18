@@ -1,3 +1,4 @@
+import { useState } from "react"
 import Navbar from "./components/Navbar/Navbar"
 import Hero from "./components/Hero/Hero"
 import PurityStandard from "./components/Purity/PurityStandard"
@@ -6,12 +7,18 @@ import Contact from "./components/Contact/Contact"
 import Footer from "./components/Footer/Footer"
 import FloatingDock from "./components/FloatingDock/FloatingDock"
 import UnrealEngine4KBackground from "./components/Background/UnrealEngine4KBackground"
+import UnrealEngineIntro from "./components/Intro/UnrealEngineIntro"
 import ThreeDCharacter from "./components/Effects/ThreeDCharacter"
 
 export default function App() {
+  const [showIntro, setShowIntro] = useState(true)
+
   return (
     <div className="min-h-screen bg-[#050a07] text-stone-100 relative selection:bg-amber-500/30 selection:text-amber-200">
-      {/* 1. Ambient 4K Unreal Background (Floating golden embers & volumetric god rays) */}
+      {/* 1. Unreal Engine Cinematic Video Opening ("PuroBite Presents") */}
+      {showIntro && <UnrealEngineIntro onComplete={() => setShowIntro(false)} />}
+
+      {/* 2. Ambient 4K Unreal Background (Floating golden embers & volumetric god rays) */}
       <UnrealEngine4KBackground />
 
       {/* 2. Interactive 3D Concierge (Tap to explore ingredients & nutrition, runs on scroll) */}
@@ -19,7 +26,7 @@ export default function App() {
 
       {/* 3. Main Luxury Editorial Content Experience */}
       <div className="relative z-10">
-        <Navbar />
+        <Navbar onReplayIntro={() => setShowIntro(true)} />
         <main>
           {/* Hero Showcase with 5-Photo Interactive Gallery */}
           <Hero />

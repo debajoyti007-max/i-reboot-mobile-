@@ -77,8 +77,8 @@ export default function UnrealEngineIntro({ onComplete }: { onComplete: () => vo
               : "opacity-0 -translate-y-4"
           }`}
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-amber-400/25 text-[10px] font-mono uppercase tracking-[0.3em] text-amber-300 mb-6 backdrop-blur-md">
-            <Sparkles className="w-3 h-3 text-amber-300 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-amber-400/30 text-[10px] font-display-brand uppercase tracking-[0.3em] text-amber-300 mb-6 backdrop-blur-md shadow-lg">
+            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
             <span>Kolkata Artisanal Kitchen</span>
           </div>
         </div>
@@ -91,12 +91,12 @@ export default function UnrealEngineIntro({ onComplete }: { onComplete: () => vo
               : "opacity-0 scale-95 translate-y-6"
           }`}
         >
-          <span className="block text-[11px] sm:text-xs uppercase tracking-[0.45em] text-stone-400 font-semibold mb-2">
+          <span className="block text-xs uppercase tracking-[0.45em] text-amber-200/70 font-display-brand font-semibold mb-3">
             Presents
           </span>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black font-serif tracking-tight text-white mb-2 relative">
-            Puro<span className="text-amber-300">Bite</span>
+          <h1 className="text-5xl sm:text-7xl md:text-8xl font-bold font-serif-luxury tracking-tight text-white mb-2 relative">
+            Puro<span className="text-amber-300 italic">Bite</span>
             {/* Shimmer sweep */}
             <span
               className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent bg-clip-text text-transparent pointer-events-none transition-transform duration-1000 ${
@@ -107,13 +107,13 @@ export default function UnrealEngineIntro({ onComplete }: { onComplete: () => vo
             </span>
           </h1>
 
-          <div className="h-0.5 w-24 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent my-3" />
+          <div className="h-0.5 w-32 mx-auto bg-gradient-to-r from-transparent via-amber-400 to-transparent my-4" />
 
-          <p className="text-xs sm:text-sm uppercase tracking-[0.3em] text-stone-300 font-medium">
+          <p className="text-sm sm:text-base uppercase tracking-[0.35em] text-stone-200 font-display-brand font-medium">
             Purity In Every Bite
           </p>
 
-          <span className="text-[10px] uppercase tracking-widest text-emerald-400 font-mono mt-3 block">
+          <span className="text-xs uppercase tracking-widest text-emerald-400 font-mono mt-4 block">
             100% Natural • 8 Superfoods • Zero Added Sugar
           </span>
         </div>

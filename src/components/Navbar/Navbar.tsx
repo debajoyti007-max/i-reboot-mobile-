@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react"
-import { Phone, MessageCircle, Sparkles, Menu, X } from "lucide-react"
+import { Phone, MessageCircle, Sparkles, Menu, X, Play } from "lucide-react"
 import { InstagramIcon, FacebookIcon } from "../icons/SocialIcons"
 import { PUROBITE_CONTACT } from "../../data/purobiteData"
 
-export default function Navbar() {
+export default function Navbar({ onReplayIntro }: { onReplayIntro?: () => void }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -64,6 +64,18 @@ export default function Navbar() {
 
           {/* Right Action Cluster */}
           <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Replay Cinematic Intro */}
+            {onReplayIntro && (
+              <button
+                onClick={onReplayIntro}
+                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-400/[0.08] hover:bg-amber-400/[0.15] border border-amber-400/30 text-amber-300 text-xs font-mono transition-all cursor-pointer"
+                title="Watch Unreal Engine 4K Opening Video"
+              >
+                <Play className="w-3 h-3 fill-amber-300 text-amber-300" />
+                <span>Intro Video</span>
+              </button>
+            )}
+
             {/* Direct Phone Calling */}
             <a
               href={PUROBITE_CONTACT.phoneTel}
@@ -116,6 +128,19 @@ export default function Navbar() {
           </div>
 
           <div className="pt-3 border-t border-white/10 flex flex-col gap-2.5">
+            {onReplayIntro && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  onReplayIntro()
+                }}
+                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-amber-400/[0.1] border border-amber-400/30 text-amber-300 text-xs font-mono"
+              >
+                <Play className="w-4 h-4 fill-amber-300 text-amber-300" />
+                <span>Watch Unreal 4K Intro Video</span>
+              </button>
+            )}
+
             <a
               href={PUROBITE_CONTACT.phoneTel}
               className="flex items-center justify-center gap-2 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-mono text-stone-200"
