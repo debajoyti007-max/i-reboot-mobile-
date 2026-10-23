@@ -1,16 +1,10 @@
 import { useState, useEffect } from "react"
-import { Search, ShoppingBag, Menu, X, MessageCircle, Phone } from "lucide-react"
-import { useCart } from "../../context/useCart"
+import { MessageCircle, Phone, Menu, X } from "lucide-react"
 import { PUROBITE_CONTACT } from "../../data/purobiteData"
 
-interface HeaderProps {
-  onOpenSearch: () => void
-}
-
-export default function Header({ onOpenSearch }: HeaderProps) {
+export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { totalCount, setIsCartOpen } = useCart()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,12 +15,9 @@ export default function Header({ onOpenSearch }: HeaderProps) {
   }, [])
 
   const navLinks = [
-    { label: "Home", href: "#hero" },
-    { label: "Shop Tubs", href: "#shop" },
-    { label: "Purity Standard", href: "#purity" },
-    { label: "Whole Ingredients", href: "#superfoods" },
-    { label: "Our Story", href: "#story" },
-    { label: "FAQ", href: "#faq" },
+    { label: "What's Inside", href: "#ingredients" },
+    { label: "Packs & Pricing", href: "#pricing" },
+    { label: "FAQs", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ]
 
@@ -38,16 +29,16 @@ export default function Header({ onOpenSearch }: HeaderProps) {
     <header
       className={`sticky top-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? "bg-[#faf8f5]/95 backdrop-blur-md shadow-sm border-b border-[#e8e3d8] py-3"
+          ? "bg-[#faf8f5]/95 backdrop-blur-md shadow-xs border-b border-[#e8e3d8] py-3"
           : "bg-[#faf8f5] border-b border-[#ece7dc] py-4"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between">
-          {/* Brand Mark (VNPR Foods inspired elegance) */}
+          {/* Brand Logo */}
           <a href="#" className="flex items-center gap-2.5 sm:gap-3 group">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#193322] text-[#f7f3ea] flex items-center justify-center font-serif text-lg font-bold shadow-sm transition-transform group-hover:scale-105">
-              <span>PB</span>
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#193322] text-[#f7f3ea] flex items-center justify-center font-serif text-lg font-bold shadow-xs">
+              PB
             </div>
             <div className="flex flex-col">
               <span className="text-xl sm:text-2xl font-bold tracking-tight text-[#141b16] font-serif-luxury leading-none">
@@ -60,8 +51,8 @@ export default function Header({ onOpenSearch }: HeaderProps) {
             </div>
           </a>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-7">
+          {/* Clean 3 Navigation Links */}
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -73,81 +64,63 @@ export default function Header({ onOpenSearch }: HeaderProps) {
             ))}
           </nav>
 
-          {/* Right Actions: Search, Cart, Order CTA */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            {/* Search Trigger */}
-            <button
-              onClick={onOpenSearch}
-              className="p-2 sm:p-2.5 rounded-full hover:bg-stone-200/60 text-stone-700 transition-colors cursor-pointer"
-              aria-label="Search products and ingredients"
-              title="Search"
+          {/* Right Action: Direct WhatsApp Order */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <a
+              href={PUROBITE_CONTACT.phoneTel}
+              className="hidden lg:flex items-center gap-1.5 text-xs text-stone-600 hover:text-[#193322] font-mono px-3 py-1.5 rounded-lg border border-stone-200"
             >
-              <Search className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
+              <Phone className="w-3.5 h-3.5 text-[#b47919]" />
+              <span>{PUROBITE_CONTACT.phoneDisplay}</span>
+            </a>
 
-            {/* Shopping Cart Button */}
-            <button
-              onClick={() => setIsCartOpen(true)}
-              className="relative p-2 sm:p-2.5 rounded-full hover:bg-stone-200/60 text-stone-700 transition-colors cursor-pointer flex items-center"
-              aria-label="Open Shopping Cart"
-            >
-              <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5 text-stone-800" />
-              {totalCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#b47919] text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
-                  {totalCount}
-                </span>
-              )}
-            </button>
-
-            {/* Direct WhatsApp Order CTA Button */}
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#193322] hover:bg-[#13271a] text-[#f7f3ea] text-xs font-semibold tracking-wide transition-all shadow-sm touch-press"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#193322] hover:bg-[#122519] text-[#f7f3ea] text-xs font-semibold tracking-wide transition-all shadow-xs touch-press"
             >
               <MessageCircle className="w-3.5 h-3.5 fill-[#f7f3ea]" />
-              <span>Order WhatsApp</span>
+              <span>Order on WhatsApp</span>
             </a>
 
-            {/* Mobile Menu Hamburger */}
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl hover:bg-stone-200/60 text-stone-800 transition-colors"
-              aria-label="Toggle navigation menu"
+              className="md:hidden p-2 rounded-lg hover:bg-stone-200/60 text-stone-800"
+              aria-label="Toggle navigation"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-3 pt-3 border-t border-stone-200/80 pb-3 flex flex-col gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="md:hidden mt-3 pt-3 border-t border-stone-200/80 pb-3 flex flex-col gap-2">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-2 px-3 rounded-lg text-sm font-medium text-stone-800 hover:bg-stone-100 hover:text-[#b47919] transition-colors"
+                className="py-2 px-3 rounded-lg text-sm font-medium text-stone-800 hover:bg-stone-100 transition-colors"
               >
                 {link.label}
               </a>
             ))}
-
-            <div className="pt-2 border-t border-stone-200/60 flex flex-col gap-2">
+            <div className="pt-2 border-t border-stone-200 flex flex-col gap-2">
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#193322] text-[#f7f3ea] text-xs font-bold tracking-wide shadow-sm"
+                className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#193322] text-[#f7f3ea] text-xs font-bold shadow-xs"
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
-                <span>Quick WhatsApp Order</span>
+                <span>Order on WhatsApp</span>
               </a>
               <a
                 href={PUROBITE_CONTACT.phoneTel}
-                className="flex items-center justify-center gap-2 py-2 px-4 rounded-xl border border-stone-300 text-stone-800 text-xs font-semibold"
+                className="flex items-center justify-center gap-2 py-2 px-4 rounded-xl border border-stone-300 text-stone-800 text-xs font-medium"
               >
                 <Phone className="w-3.5 h-3.5 text-[#b47919]" />
                 <span>Call Kitchen: {PUROBITE_CONTACT.phoneDisplay}</span>
