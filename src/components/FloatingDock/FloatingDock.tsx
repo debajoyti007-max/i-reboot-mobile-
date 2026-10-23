@@ -1,22 +1,21 @@
-import { Phone, MessageCircle, Sparkles, Package } from "lucide-react"
+import { Phone, ShoppingBag, Package } from "lucide-react"
 import { InstagramIcon } from "../icons/SocialIcons"
 import { PUROBITE_CONTACT } from "../../data/purobiteData"
+import { useCart } from "../../context/useCart"
 
 export default function FloatingDock() {
-  const whatsappUrl = `https://wa.me/918250755958?text=${encodeURIComponent(
-    "Hello PuroBite! I'd like to order Banana Chew handcrafted pack."
-  )}`
+  const { totalCount, setIsCartOpen } = useCart()
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-3 py-2 rounded-full bg-[#050a07]/92 backdrop-blur-2xl border border-amber-400/[0.22] shadow-[0_16px_40px_rgba(0,0,0,0.85)] flex items-center gap-2 sm:gap-3">
-      {/* Quick Call */}
+    <div className="md:hidden fixed bottom-3 left-1/2 -translate-x-1/2 z-40 px-3 py-2 rounded-2xl bg-[#141b16]/95 backdrop-blur-md border border-white/10 shadow-lg flex items-center gap-2 max-w-[95%]">
+      {/* Call Hotline */}
       <a
         href={PUROBITE_CONTACT.phoneTel}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-stone-200 text-xs font-medium border border-white/10 transition-colors"
-        title="Call Kitchen Hotline"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 text-stone-200 text-xs font-medium"
+        title="Call Hotline"
       >
-        <Phone className="w-3.5 h-3.5 text-amber-400" />
-        <span className="hidden sm:inline font-mono text-[11px]">{PUROBITE_CONTACT.phoneDisplay}</span>
+        <Phone className="w-3.5 h-3.5 text-[#d4a961]" />
+        <span className="text-[11px] font-mono">Call</span>
       </a>
 
       {/* Instagram */}
@@ -24,32 +23,34 @@ export default function FloatingDock() {
         href={PUROBITE_CONTACT.instagramUrl}
         target="_blank"
         rel="noreferrer"
-        className="p-2 rounded-full bg-white/[0.04] hover:bg-pink-500/15 text-stone-200 hover:text-pink-300 text-xs font-semibold border border-white/10 transition-colors"
-        title="Follow @eatpurobite"
+        className="p-2 rounded-xl bg-white/10 text-stone-200 text-xs"
+        title="Instagram"
       >
-        <InstagramIcon className="w-4 h-4" />
+        <InstagramIcon className="w-3.5 h-3.5" />
       </a>
 
-      {/* View Packs */}
+      {/* View Shop */}
       <a
-        href="#packs"
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-stone-200 hover:text-amber-300 text-xs font-medium border border-white/10 transition-colors"
+        href="#shop"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/10 text-stone-200 text-xs font-medium"
       >
-        <Package className="w-3.5 h-3.5 text-amber-400" />
-        <span>Packs</span>
+        <Package className="w-3.5 h-3.5 text-[#d4a961]" />
+        <span className="text-[11px]">Tubs</span>
       </a>
 
-      {/* WhatsApp Order CTA */}
-      <a
-        href={whatsappUrl}
-        target="_blank"
-        rel="noreferrer"
-        className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-stone-950 font-bold text-xs tracking-wider shadow-[0_4px_15px_rgba(229,193,121,0.35)] hover:scale-105 transition-transform"
+      {/* Basket Trigger with live counter */}
+      <button
+        onClick={() => setIsCartOpen(true)}
+        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#b47919] hover:bg-[#996515] text-white text-xs font-bold shadow-xs cursor-pointer"
       >
-        <MessageCircle className="w-3.5 h-3.5 fill-current" />
-        <span className="font-extrabold uppercase text-[11px]">Order WhatsApp</span>
-        <Sparkles className="w-3 h-3 text-stone-950 hidden sm:inline" />
-      </a>
+        <ShoppingBag className="w-3.5 h-3.5" />
+        <span className="text-[11px]">Basket</span>
+        {totalCount > 0 && (
+          <span className="w-4 h-4 rounded-full bg-white text-[#b47919] text-[10px] font-bold flex items-center justify-center">
+            {totalCount}
+          </span>
+        )}
+      </button>
     </div>
   )
 }

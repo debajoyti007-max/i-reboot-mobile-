@@ -22,14 +22,14 @@ const SENSORY_DIMENSIONS: SensoryDimension[] = [
     badge: "Signature Mouthfeel",
     icon: "🍌",
     description:
-      "Unlike dry, powdery factory protein bars or rock-hard granola, PuroBite delivers a lush, velvety, yielding chew reminiscent of handcrafted French nougat or traditional fruit leather.",
+      "Unlike dry, chalky factory protein bars or rock-hard granola, PuroBite delivers a lush, velvety, yielding chew reminiscent of handcrafted fruit leather or gourmet French nougat.",
     culinaryNotes: [
       "Naturally softened by low-temperature slow dehydration",
       "Locks in fruit moisture without sticky cane syrup residues",
       "Melt-in-mouth finish with natural pectin structure",
     ],
     sommelierQuote:
-      "“The chewiness is remarkably supple. It yields gently to each bite, delivering a prolonged release of natural caramel notes.”",
+      "“The chewiness is remarkably supple. It yields gently to each bite, delivering a prolonged release of natural banana caramel notes.”",
   },
   {
     id: "crunch",
@@ -39,14 +39,14 @@ const SENSORY_DIMENSIONS: SensoryDimension[] = [
     badge: "Textural Contrast",
     icon: "🥜",
     description:
-      "Whole California almonds and whole cashews are dry-roasted to a precise golden hue, creating an acoustic snap that contrasts harmoniously against the chewy banana base.",
+      "Whole California almonds and whole cashews are dry-roasted on cast-iron to a precise golden hue, creating an acoustic snap that contrasts harmoniously against the chewy banana base.",
     culinaryNotes: [
       "Whole roasted California almonds retain their crunchy snap",
       "Buttery cashew halves break with a delicate, creamy crumble",
       "Toasted sesame seeds add microscopic crackle across the palate",
     ],
     sommelierQuote:
-      "“A sublime tactile interplay: the satisfying crunch of whole roasted nuts puncturing through dense, luscious banana caramel.”",
+      "“A sublime tactile interplay: the satisfying crunch of whole roasted nuts puncturing through dense, luscious fruit caramel.”",
   },
   {
     id: "sweetness",
@@ -56,7 +56,7 @@ const SENSORY_DIMENSIONS: SensoryDimension[] = [
     badge: "0g Added Cane Sugar",
     icon: "🍯",
     description:
-      "Zero refined sucrose or artificial sweeteners. 100% of the sweetness emanates from ripe fruit fructose naturally caramelized during gentle dehydration.",
+      "Zero refined sucrose, brown sugar, or artificial sweeteners. 100% of the sweetness emanates from ripe fruit fructose naturally caramelized during gentle dehydration.",
     culinaryNotes: [
       "Zero sickly-sweet cloying aftertaste of cane sugar",
       "Warm notes of honey, ripe Cavendish banana, and vanilla bean",
@@ -77,10 +77,10 @@ const SENSORY_DIMENSIONS: SensoryDimension[] = [
     culinaryNotes: [
       "Heritage black sesame provides an earthy, smoky undertone",
       "Golden sunflower and pumpkin seeds offer a warm harvest bouquet",
-      "No artificial fragrance, vanilla synthetic flavor, or sprays",
+      "No artificial fragrance, synthetic vanilla flavor, or sprays",
     ],
     sommelierQuote:
-      "“Aromatics that transport you straight into a boutique kitchen where nuts and seeds are being roasted on heavy cast-iron skillets.”",
+      "“Aromatics that evoke a boutique kitchen where nuts and seeds are being roasted on heavy cast-iron skillets.”",
   },
   {
     id: "energy",
@@ -97,7 +97,7 @@ const SENSORY_DIMENSIONS: SensoryDimension[] = [
       "6.8g prebiotic fiber supports microbiome digestion without bloating",
     ],
     sommelierQuote:
-      "“Clean, sustained physical and cognitive fuel without the jittery peak and precipitous slump of commercial chocolates.”",
+      "“Clean, sustained physical and cognitive fuel without the jittery peak and precipitous slump of commercial confectionery.”",
   },
 ]
 
@@ -105,28 +105,25 @@ export default function SensoryProfile() {
   const [activeDimension, setActiveDimension] = useState<SensoryDimension>(SENSORY_DIMENSIONS[0])
 
   return (
-    <section id="sensory" className="relative py-20 sm:py-28 overflow-hidden bg-[#060c08] border-t border-amber-400/10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+    <section id="sensory" className="py-16 sm:py-24 bg-white border-b border-[#e8e3d8]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/[0.08] border border-amber-400/30 text-amber-300 text-xs font-semibold backdrop-blur-md mb-3.5">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span className="tracking-widest uppercase text-[10px]">Sommelier Tasting Notes</span>
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full herbal-pill text-xs font-semibold mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
+            <span>Sommelier Tasting Notes</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold text-white font-serif-luxury tracking-tight leading-tight">
-            The Sensorial Architecture. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-300 to-amber-500 italic">
-              Texture, Aroma & Mouthfeel
-            </span>
+          <h2 className="text-3xl sm:text-5xl font-bold text-stone-900 font-serif-luxury tracking-tight leading-tight">
+            Texture, Aroma & <span className="text-[#b47919] italic font-serif">Mouthfeel</span>
           </h2>
-          <p className="mt-3 text-stone-300 text-sm sm:text-base font-light">
-            Luxury artisanal confectionery is experienced with all five senses. Explore how every bite performs on your palate.
+          <p className="mt-2.5 text-stone-600 text-sm sm:text-base font-light">
+            Gourmet confectionery is experienced with all five senses. Explore how every handcrafted bite performs on your palate.
           </p>
         </div>
 
-        {/* 2-Column Luxury Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left: 5 Interactive Sensory Pillars */}
+        {/* 2-Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+          {/* Left: 5 Interactive Sensory Buttons */}
           <div className="lg:col-span-5 flex flex-col gap-2.5">
             {SENSORY_DIMENSIONS.map((dim) => {
               const isSelected = activeDimension.id === dim.id
@@ -134,33 +131,33 @@ export default function SensoryProfile() {
                 <button
                   key={dim.id}
                   onClick={() => setActiveDimension(dim)}
-                  className={`w-full text-left p-4 sm:p-4.5 rounded-2xl border transition-all cursor-pointer ${
+                  className={`w-full text-left p-4 rounded-xl border transition-all cursor-pointer ${
                     isSelected
-                      ? "bg-gradient-to-r from-amber-400/15 to-transparent border-amber-400/60 shadow-[0_4px_25px_rgba(229,193,121,0.15)] ring-1 ring-amber-400/30"
-                      : "bg-white/[0.02] border-white/10 hover:border-amber-400/30 hover:bg-white/[0.04]"
+                      ? "bg-[#faf8f5] border-[#b47919] shadow-xs ring-1 ring-[#b47919]/30"
+                      : "bg-white border-[#e8e3d8] hover:border-stone-400 hover:bg-stone-50"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2.5">
-                      <span className="text-xl sm:text-2xl">{dim.icon}</span>
+                      <span className="text-xl">{dim.icon}</span>
                       <div>
-                        <span className="text-sm sm:text-base font-bold text-white font-serif-luxury block">
+                        <span className="text-sm font-bold text-stone-900 font-serif-luxury block">
                           {dim.title}
                         </span>
-                        <span className="text-[10px] uppercase tracking-wider text-amber-300/80 font-mono">
+                        <span className="text-[10px] uppercase tracking-wider text-[#b47919] font-mono">
                           {dim.badge}
                         </span>
                       </div>
                     </div>
-                    <span className="text-sm sm:text-base font-black text-amber-300 font-serif-luxury">
+                    <span className="text-sm font-bold text-stone-900 font-serif-luxury font-mono">
                       {dim.score}
                     </span>
                   </div>
 
-                  {/* Tactile Score Bar */}
-                  <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden mt-2">
+                  {/* Score Bar */}
+                  <div className="w-full h-1.5 rounded-full bg-stone-200 overflow-hidden mt-2">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-300 transition-all duration-500"
+                      className="h-full rounded-full bg-gradient-to-r from-[#b47919] to-[#193322] transition-all duration-300"
                       style={{ width: `${dim.scoreNum}%` }}
                     />
                   </div>
@@ -169,52 +166,52 @@ export default function SensoryProfile() {
             })}
           </div>
 
-          {/* Right: Detailed Sommelier Inspection Stage */}
+          {/* Right: Detailed Inspection Card */}
           <div className="lg:col-span-7">
-            <div className="relative rounded-3xl glass-panel-gold p-6 sm:p-8 border border-amber-400/30 shadow-2xl bg-gradient-to-b from-[#0a1811] via-[#07110c] to-[#040806]">
-              {/* Badge & Rating Stamp */}
-              <div className="flex items-center justify-between border-b border-amber-400/20 pb-4 mb-5">
-                <div className="flex items-center gap-2 text-amber-300 text-xs font-semibold uppercase tracking-wider">
+            <div className="p-6 sm:p-8 rounded-2xl bg-[#faf8f5] border border-[#e8e3d8] shadow-xs">
+              <div className="flex items-center justify-between border-b border-[#e8e3d8] pb-4 mb-5">
+                <div className="flex items-center gap-2 text-stone-800 text-xs font-semibold">
                   <span className="text-2xl">{activeDimension.icon}</span>
-                  <span>{activeDimension.badge}</span>
+                  <span className="uppercase tracking-wider font-mono text-[11px] text-[#b47919]">
+                    {activeDimension.badge}
+                  </span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-300 font-mono text-xs font-bold">
-                  <span>Score: {activeDimension.score}</span>
+                <div className="px-3 py-1 rounded-full bg-white border border-[#e8e3d8] text-xs font-bold font-mono text-stone-800">
+                  Rating: {activeDimension.score}
                 </div>
               </div>
 
-              {/* Title & Description */}
-              <h3 className="text-2xl sm:text-3xl font-bold text-white font-serif-luxury mb-3">
+              <h3 className="text-2xl sm:text-3xl font-bold text-stone-900 font-serif-luxury mb-2.5">
                 {activeDimension.title}
               </h3>
-              <p className="text-sm sm:text-base text-stone-200 leading-relaxed font-light mb-6">
+              <p className="text-sm text-stone-600 leading-relaxed font-light mb-6">
                 {activeDimension.description}
               </p>
 
-              {/* 3 Culinary Tasting Notes */}
+              {/* 3 Culinary Notes */}
               <div className="mb-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-amber-300/80 font-mono block mb-3">
-                  Culinary Notes & Mouthfeel
+                <span className="text-xs font-bold uppercase tracking-wider text-stone-700 font-mono block mb-3">
+                  Tasting Observations
                 </span>
-                <div className="space-y-2.5">
+                <div className="space-y-2">
                   {activeDimension.culinaryNotes.map((note, idx) => (
                     <div
                       key={idx}
-                      className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/10"
+                      className="flex items-start gap-2.5 p-3 rounded-xl bg-white border border-[#e8e3d8]"
                     >
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                      <span className="text-xs sm:text-sm text-stone-200 font-light">{note}</span>
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                      <span className="text-xs sm:text-sm text-stone-700 font-light">{note}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Sommelier Quote */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-400/[0.08] via-amber-400/[0.04] to-transparent border border-amber-400/25">
-                <span className="text-xs uppercase tracking-widest text-amber-300 font-bold font-mono block mb-1">
-                  Artisanal Tasting Verdict
+              {/* Verdict */}
+              <div className="p-4 rounded-xl bg-white border border-[#e8e3d8]">
+                <span className="text-[10px] uppercase tracking-widest text-[#b47919] font-bold font-mono block mb-1">
+                  Artisanal Verdict
                 </span>
-                <p className="text-xs sm:text-sm italic text-stone-200 font-serif-luxury leading-relaxed">
+                <p className="text-xs sm:text-sm italic text-stone-700 font-serif-luxury leading-relaxed">
                   {activeDimension.sommelierQuote}
                 </p>
               </div>
