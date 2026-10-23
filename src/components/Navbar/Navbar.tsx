@@ -15,7 +15,9 @@ export default function Navbar({ onReplayIntro }: { onReplayIntro?: () => void }
 
   const navLinks = [
     { label: "Banana Chew", href: "#hero" },
+    { label: "3D Tub Studio", href: "#studio-3d" },
     { label: "Purity Standard", href: "#purity" },
+    { label: "Sensory Notes", href: "#sensory" },
     { label: "Packs & Pricing", href: "#packs" },
     { label: "Kitchen Concierge", href: "#contact" },
   ]
