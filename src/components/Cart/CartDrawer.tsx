@@ -10,17 +10,10 @@ export default function CartDrawer() {
     updateQuantity,
     removeFromCart,
     subtotal,
-    freeShippingRemaining,
-    isFreeShipping,
     getWhatsAppOrderUrl,
   } = useCart()
 
   if (!isCartOpen) return null
-
-  const shippingFee = isFreeShipping || items.length === 0 ? 0 : 49
-  const totalPayable = subtotal + shippingFee
-  const threshold = PUROBITE_CONTACT.freeShippingThreshold
-  const progressPercent = Math.min(100, Math.round((subtotal / threshold) * 100))
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
@@ -50,33 +43,11 @@ export default function CartDrawer() {
 
             <button
               onClick={() => setIsCartOpen(false)}
-              className="p-1.5 rounded-lg hover:bg-stone-100 text-stone-500 hover:text-stone-800 transition-colors"
+              className="p-1.5 rounded-lg hover:bg-stone-100 text-stone-500 hover:text-stone-800 transition-colors cursor-pointer"
               aria-label="Close basket"
             >
               <X className="w-5 h-5" />
             </button>
-          </div>
-
-          {/* Free Shipping Meter */}
-          <div className="px-5 py-3 bg-[#fdfbf7] border-b border-[#ece7dc]">
-            <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
-              {isFreeShipping ? (
-                <span className="text-[#193322] font-bold">
-                  ✓ Free Express Delivery Unlocked!
-                </span>
-              ) : (
-                <span className="text-stone-700">
-                  Add <strong className="text-[#b47919]">₹{freeShippingRemaining}</strong> more for <strong className="text-[#193322]">Free Delivery</strong>
-                </span>
-              )}
-              <span className="text-[11px] text-stone-500 font-mono">{progressPercent}%</span>
-            </div>
-            <div className="w-full h-1.5 rounded-full bg-stone-200 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-[#b47919] to-[#224732] transition-all duration-300"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
           </div>
 
           {/* Items List */}
@@ -90,12 +61,12 @@ export default function CartDrawer() {
                   Your basket is empty
                 </h4>
                 <p className="text-xs text-stone-500 max-w-xs mb-5 font-light">
-                  Explore our handcrafted banana chew tubs made with 8 superfoods and zero added cane sugar.
+                  Explore our handcrafted banana chew tubs made with whole almonds, cashews, and zero added cane sugar.
                 </p>
                 <a
                   href="#shop"
                   onClick={() => setIsCartOpen(false)}
-                  className="px-5 py-2.5 rounded-xl bg-[#193322] text-[#f7f3ea] text-xs font-semibold shadow-sm hover:bg-[#13271a] transition-colors"
+                  className="px-5 py-2.5 rounded-xl bg-[#193322] text-[#f7f3ea] text-xs font-semibold shadow-xs hover:bg-[#13271a] transition-colors"
                 >
                   Explore Handcrafted Tubs
                 </a>
@@ -124,7 +95,7 @@ export default function CartDrawer() {
                         </h4>
                         <button
                           onClick={() => removeFromCart(item.pack.id)}
-                          className="text-stone-400 hover:text-rose-500 transition-colors p-0.5"
+                          className="text-stone-400 hover:text-rose-500 transition-colors p-0.5 cursor-pointer"
                           title="Remove item"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -144,7 +115,7 @@ export default function CartDrawer() {
                       <div className="flex items-center gap-1.5 border border-stone-200 rounded-lg bg-stone-50 p-0.5">
                         <button
                           onClick={() => updateQuantity(item.pack.id, item.quantity - 1)}
-                          className="w-5 h-5 rounded hover:bg-white flex items-center justify-center text-stone-600 transition-colors"
+                          className="w-5 h-5 rounded hover:bg-white flex items-center justify-center text-stone-600 transition-colors cursor-pointer"
                           aria-label="Decrease quantity"
                         >
                           <Minus className="w-3 h-3" />
@@ -154,7 +125,7 @@ export default function CartDrawer() {
                         </span>
                         <button
                           onClick={() => updateQuantity(item.pack.id, item.quantity + 1)}
-                          className="w-5 h-5 rounded hover:bg-white flex items-center justify-center text-stone-600 transition-colors"
+                          className="w-5 h-5 rounded hover:bg-white flex items-center justify-center text-stone-600 transition-colors cursor-pointer"
                           aria-label="Increase quantity"
                         >
                           <Plus className="w-3 h-3" />
@@ -171,22 +142,13 @@ export default function CartDrawer() {
           {items.length > 0 && (
             <div className="p-4 sm:p-5 bg-white border-t border-[#e8e3d8] space-y-3">
               <div className="space-y-1.5 text-xs text-stone-600">
-                <div className="flex justify-between">
-                  <span>Subtotal</span>
-                  <span className="font-semibold text-stone-900">₹{subtotal}</span>
+                <div className="flex justify-between text-sm sm:text-base font-bold text-stone-900 font-serif-luxury">
+                  <span>Product Subtotal</span>
+                  <span>₹{subtotal}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Shipping</span>
-                  {shippingFee === 0 ? (
-                    <span className="text-[#193322] font-semibold">FREE</span>
-                  ) : (
-                    <span className="text-stone-900">₹{shippingFee}</span>
-                  )}
-                </div>
-                <div className="flex justify-between text-sm sm:text-base font-bold text-stone-900 pt-1.5 border-t border-stone-100 font-serif-luxury">
-                  <span>Estimated Total</span>
-                  <span>₹{totalPayable}</span>
-                </div>
+                <p className="text-[11px] text-stone-500 font-light pt-1">
+                  Courier delivery details and estimate confirmed directly upon WhatsApp order.
+                </p>
               </div>
 
               {/* Checkout Action */}
@@ -195,7 +157,7 @@ export default function CartDrawer() {
                   href={getWhatsAppOrderUrl()}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#193322] hover:bg-[#122519] text-[#f7f3ea] font-bold text-xs sm:text-sm tracking-wide shadow-sm transition-colors touch-press cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#193322] hover:bg-[#122519] text-[#f7f3ea] font-bold text-xs sm:text-sm tracking-wide shadow-xs transition-colors touch-press cursor-pointer"
                 >
                   <MessageCircle className="w-4 h-4 fill-current" />
                   <span>Confirm Order on WhatsApp</span>

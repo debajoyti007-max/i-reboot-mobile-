@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Sparkles, ShieldCheck, Check } from "lucide-react"
-import { PUROBITE_IMAGES, SUPERFOODS } from "../../data/purobiteData"
+import { PUROBITE_IMAGES, REAL_INGREDIENTS } from "../../data/purobiteData"
 
 interface PurityPillar {
   id: string
@@ -21,67 +21,67 @@ const PILLARS: PurityPillar[] = [
     tabLabel: "0g Added Sugar",
     headline: "100% Natural Fruit Sweetness. Never Cane Sugar.",
     story:
-      "We slow-dehydrate sun-ripened Cavendish bananas under gentle, low-temperature airflow. This naturally concentrates fruit fructose, releasing intense natural fruit sweetness and chewy texture without a single grain of cane sugar, brown sugar, or corn syrups.",
+      "We slow-dehydrate sun-ripened Cavendish bananas at gentle low temperatures. This evaporates water and naturally concentrates the fruit's inherent fructose, creating a rich chewy texture with 0.0g of added cane sugar, brown sugar, or corn syrups.",
     image: PUROBITE_IMAGES.hero,
-    badge: "100% Natural Fruit Fructose",
+    badge: "100% Natural Fruit Sweetness",
     metrics: [
-      { label: "Added Cane Sugar", value: "0.0 g", sub: "Lab Verified" },
+      { label: "Added Cane Sugar", value: "0.0 g", sub: "Packaging Facts" },
       { label: "Natural Potassium", value: "480 mg", sub: "Per 100g" },
       { label: "Sweetness Source", value: "Ripe Bananas", sub: "Slow Dehydrated" },
     ],
     highlights: [
-      "No blood sugar spikes from refined sucrose",
-      "Rich in natural potassium and essential electrolytes",
-      "Pure fruit fructose delivers steady, crash-free fuel",
+      "No refined sucrose or corn syrups",
+      "Rich in natural potassium from ripe bananas",
+      "Pure fruit fructose delivers steady, natural energy",
     ],
   },
   {
-    id: "superfoods",
-    title: "8 Whole Superfoods",
-    tabLabel: "8 Superfoods",
-    headline: "Whole Nuts, Seeds & Superfoods You Can See & Taste.",
+    id: "ingredients",
+    title: "Whole Nuts & Seeds",
+    tabLabel: "Whole Ingredients",
+    headline: "Whole California Almonds, Cashews & Roasted Seeds.",
     story:
-      "Every batch is hand-folded with 8 whole, recognizable superfoods: Slow-Dehydrated Bananas, California Whole Almonds, Creamy Cashews, Roasted Pumpkin Seeds, Toasted White Sesame, Heritage Black Sesame, Golden Sunflower Seeds, and Prebiotic Chia & Melon Seeds. No powders, no fillers.",
-    image: PUROBITE_IMAGES.flatlay,
-    badge: "Whole-Food Matrix",
+      "Every batch is prepared with whole, recognizable ingredients you can see and crunch: slow-dehydrated bananas, California whole almonds, whole cashews, roasted pumpkin seeds, and toasted sesame seeds. No powders, no palm oil, and no artificial fillers.",
+    image: PUROBITE_IMAGES.infographic,
+    badge: "Whole Food Ingredients",
     metrics: [
-      { label: "Superfoods", value: "8 Real", sub: "Whole Nuts & Seeds" },
+      { label: "Ingredients", value: "100% Real", sub: "Nuts & Seeds" },
       { label: "Palm Oil", value: "0%", sub: "Pure Nut Fats" },
       { label: "Preservatives", value: "Zero", sub: "Clean Label" },
     ],
     highlights: [
-      "California Almonds provide natural Vitamin E and heart-healthy fats",
-      "Cashews and Pumpkin Seeds supply bioavailable zinc & magnesium",
-      "Toasted White & Black Sesame supply bone-nourishing plant calcium",
+      "Whole California almonds provide Vitamin E and heart-healthy fats",
+      "Creamy cashews and pumpkin seeds supply bioavailable zinc & protein",
+      "Toasted sesame seeds provide traditional aroma and dietary calcium",
     ],
   },
   {
     id: "nutrition",
-    title: "Clean Nutrition Profile",
+    title: "Nutrition Facts",
     tabLabel: "Nutrition Facts",
-    headline: "385 kcal of Pure, Unadulterated Plant Fuel.",
+    headline: "385 kcal of Whole-Food Plant Nutrition.",
     story:
-      "Formulated for athletes, busy professionals, and mindful snackers. PuroBite delivers 8.2g of clean bioavailable plant protein, 6.8g of gut-nourishing prebiotic fiber, and zero trans fats. Certified vegetarian, non-GMO, and palm-oil free.",
-    image: PUROBITE_IMAGES.infographic,
-    badge: "Official Packaging Verification",
+      "Honest nutrition for daily vitality, desk energy, or pre-workout fuel. PuroBite delivers 8.2g of plant protein from whole nuts, 6.8g of dietary fiber from ripe bananas, and zero trans fats. Certified 100% vegetarian.",
+    image: PUROBITE_IMAGES.flatlay,
+    badge: "Nutrition Transparency",
     metrics: [
       { label: "Energy", value: "385 kcal", sub: "Per 100g" },
-      { label: "Plant Protein", value: "8.2 g", sub: "Whole Nuts & Seeds" },
-      { label: "Prebiotic Fiber", value: "6.8 g", sub: "Gut Friendly" },
+      { label: "Plant Protein", value: "8.2 g", sub: "Nuts & Seeds" },
+      { label: "Dietary Fiber", value: "6.8 g", sub: "Ripe Bananas" },
     ],
     highlights: [
-      "Prebiotic banana fiber nourishes healthy gut microbiome",
-      "13.6g of healthy monounsaturated & polyunsaturated fats",
-      "Lab-tested clean label with 100% nutritional transparency",
+      "Dietary fiber from bananas supports smooth digestion",
+      "13.6g of healthy unsaturated fats from almonds & cashews",
+      "Zero trans fats and zero hydrogenated vegetable oils",
     ],
   },
   {
     id: "craft",
     title: "Handcrafted in Kolkata",
-    tabLabel: "Artisanal Craft",
+    tabLabel: "Kolkata Craft",
     headline: "Small-Batch Freshness. Never Mass-Produced.",
     story:
-      "Unlike factory bars sitting in warehouse pallets for months, PuroBite is prepared fresh upon order in our dedicated Kolkata kitchen. Sealed immediately in recyclable kraft tubs with airtight aroma-fresh barriers to ensure 6 months of peak crunch and fruit chewiness.",
+      "PuroBite is prepared fresh upon order confirmation in our Kolkata kitchen. Sealed immediately in recyclable kraft packaging with an airtight barrier to ensure 6 months of peak crunch and fruit chewiness.",
     image: PUROBITE_IMAGES.front,
     badge: "Kolkata Kitchen Origin",
     metrics: [
@@ -91,7 +91,7 @@ const PILLARS: PurityPillar[] = [
     ],
     highlights: [
       "Freshly batch-crafted upon order confirmation",
-      "Recyclable kraft tubs prevent oxidation and moisture ingress",
+      "Airtight recyclable kraft packaging preserves aroma and crunch",
       "Dispatched directly from Kolkata across India",
     ],
   },
@@ -117,7 +117,7 @@ export default function PurityStandard() {
           </h2>
 
           <p className="mt-3 text-stone-600 text-sm sm:text-base leading-relaxed max-w-lg font-light">
-            Explore the four cornerstones that define PuroBite: honest whole food ingredients, zero cane sugar, and artisanal small-batch freshness.
+            Genuine ingredients, zero added cane sugar, and honest small-batch handcrafting from Kolkata.
           </p>
         </div>
 
@@ -206,22 +206,22 @@ export default function PurityStandard() {
           </div>
         </div>
 
-        {/* 3. The 8 Whole Superfoods Grid */}
+        {/* 3. The Real Ingredients Grid (Direct from packaging infographic) */}
         <div id="superfoods" className="pt-6">
           <div className="text-center max-w-xl mx-auto mb-8">
             <span className="text-xs uppercase tracking-widest text-[#b47919] font-mono font-bold block mb-1">
-              Ingredient Transparency
+              What's Inside Our Banana Chew
             </span>
             <h3 className="text-2xl sm:text-4xl font-bold text-stone-900 font-serif-luxury">
-              The 8 Whole Superfoods Inside
+              Natural Whole Ingredients
             </h3>
             <p className="text-xs sm:text-sm text-stone-600 mt-2 font-light">
-              Every single ingredient is whole, natural, and recognizable. Zero powders, zero fillers.
+              Verified directly from our official packaging. Whole nuts and seeds you can recognize and taste.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {SUPERFOODS.map((food) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {REAL_INGREDIENTS.map((food) => (
               <div
                 key={food.id}
                 className="p-4 sm:p-5 rounded-xl bg-white border border-[#e8e3d8] hover:border-[#b47919] transition-all shadow-2xs flex flex-col justify-between"
@@ -236,9 +236,6 @@ export default function PurityStandard() {
                   <h4 className="text-sm sm:text-base font-bold text-stone-900 font-serif-luxury">
                     {food.name}
                   </h4>
-                  <span className="text-[11px] text-[#b47919] font-medium block mt-0.5">
-                    {food.subtitle}
-                  </span>
                   <p className="text-xs text-stone-600 mt-2 font-light leading-relaxed">
                     {food.benefit}
                   </p>

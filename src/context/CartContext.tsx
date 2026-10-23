@@ -1,5 +1,5 @@
 import { useState, useEffect, type ReactNode } from "react"
-import { type ProductPack, PUROBITE_CONTACT } from "../data/purobiteData"
+import { type ProductPack } from "../data/purobiteData"
 import { CartContext, type CartItem } from "./CartTypes"
 
 const CART_STORAGE_KEY = "purobite_cart_v1"
@@ -58,14 +58,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const totalCount = items.reduce((sum, item) => sum + item.quantity, 0)
   const subtotal = items.reduce((sum, item) => sum + item.pack.price * item.quantity, 0)
-  const freeShippingThreshold = PUROBITE_CONTACT.freeShippingThreshold
-  const freeShippingRemaining = Math.max(0, freeShippingThreshold - subtotal)
-  const isFreeShipping = subtotal >= freeShippingThreshold
 
   const getWhatsAppOrderUrl = () => {
     if (items.length === 0) {
       return `https://wa.me/918250755958?text=${encodeURIComponent(
-        "Hello PuroBite! I'd like to inquire about your handcrafted Banana Chew tubs."
+        "Hello PuroBite! I'd like to inquire about ordering handcrafted Banana Chew tubs."
       )}`
     }
 
@@ -78,13 +75,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       )
       .join("\n")
 
-    const shippingText = isFreeShipping
-      ? "FREE Express Delivery (Orders over ₹699)"
-      : "Standard Courier (₹49)"
-
-    const totalPayable = isFreeShipping ? subtotal : subtotal + 49
-
-    const message = `🌿 *PuroBite™ Handcrafted Order Request* 🌿\n\n*Items Ordered:*\n${itemsList}\n\n*Subtotal:* ₹${subtotal}\n*Shipping:* ${shippingText}\n*Estimated Total:* ₹${totalPayable}\n\n-------------------------\n*Delivery Details:*\nFull Name: \nDelivery Address: \nCity & Pincode: \nContact Phone: \n\nPlease confirm my batch order & delivery estimate! Thank you!`
+    const message = `🌿 *PuroBite™ Handcrafted Order Request* 🌿\n\n*Items:*\n${itemsList}\n\n*Product Subtotal:* ₹${subtotal}\n\n-------------------------\n*Delivery Details:*\nFull Name:\nDelivery Address:\nCity & Pincode:\nContact Phone:\n\nPlease confirm availability & courier shipping to my address! Thank you!`
 
     return `https://wa.me/918250755958?text=${encodeURIComponent(message)}`
   }
@@ -101,8 +92,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setIsCartOpen,
         totalCount,
         subtotal,
-        freeShippingRemaining,
-        isFreeShipping,
         getWhatsAppOrderUrl,
       }}
     >

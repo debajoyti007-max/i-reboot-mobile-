@@ -24,7 +24,7 @@ export default function Header({ onOpenSearch }: HeaderProps) {
     { label: "Home", href: "#hero" },
     { label: "Shop Tubs", href: "#shop" },
     { label: "Purity Standard", href: "#purity" },
-    { label: "8 Superfoods", href: "#superfoods" },
+    { label: "Whole Ingredients", href: "#superfoods" },
     { label: "Our Story", href: "#story" },
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },

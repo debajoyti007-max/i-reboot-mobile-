@@ -16,8 +16,6 @@ export interface CartContextType {
   setIsCartOpen: (open: boolean) => void
   totalCount: number
   subtotal: number
-  freeShippingRemaining: number
-  isFreeShipping: boolean
   getWhatsAppOrderUrl: () => string
 }
 

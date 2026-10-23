@@ -57,7 +57,7 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#superfoods" className="hover:text-white transition-colors">
-                  8 Whole Superfoods
+                  Whole Ingredients
                 </a>
               </li>
               <li>
@@ -143,7 +143,7 @@ export default function Footer() {
 
             <div className="space-y-1.5 text-[11px] text-stone-400 font-light">
               <p>• 24–48 Hour Dispatch Across India</p>
-              <p>• Free Express Delivery over ₹699</p>
+              <p>• Delivery details confirmed on WhatsApp</p>
               <p>• Airtight Recyclable Kraft Tubs (6 Months Fresh)</p>
               <p>• Returns accepted for transit-damaged tubs</p>
             </div>

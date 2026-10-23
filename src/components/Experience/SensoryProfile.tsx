@@ -4,100 +4,77 @@ import { Sparkles, CheckCircle2 } from "lucide-react"
 interface SensoryDimension {
   id: string
   title: string
-  score: string
-  scoreNum: number
   badge: string
   icon: string
   description: string
   culinaryNotes: string[]
-  sommelierQuote: string
 }
 
 const SENSORY_DIMENSIONS: SensoryDimension[] = [
   {
     id: "chewiness",
-    title: "Artisanal Banana Chew",
-    score: "9.5 / 10",
-    scoreNum: 95,
-    badge: "Signature Mouthfeel",
+    title: "Natural Banana Chew",
+    badge: "Fruit Texture",
     icon: "🍌",
     description:
-      "Unlike dry, chalky factory protein bars or rock-hard granola, PuroBite delivers a lush, velvety, yielding chew reminiscent of handcrafted fruit leather or gourmet French nougat.",
+      "The slow dehydration of ripe bananas evaporates moisture while retaining natural fruit pectin, creating a dense, yielding chew that softens naturally on the palate.",
     culinaryNotes: [
-      "Naturally softened by low-temperature slow dehydration",
-      "Locks in fruit moisture without sticky cane syrup residues",
-      "Melt-in-mouth finish with natural pectin structure",
+      "Natural fruit pectin provides a soft, pliable chew",
+      "Locks in fruit moisture without sticky cane sugar syrups",
+      "Traditional low-temperature dehydration preserves clean mouthfeel",
     ],
-    sommelierQuote:
-      "“The chewiness is remarkably supple. It yields gently to each bite, delivering a prolonged release of natural banana caramel notes.”",
   },
   {
     id: "crunch",
-    title: "Roasted Nut Shatter",
-    score: "8.8 / 10",
-    scoreNum: 88,
-    badge: "Textural Contrast",
+    title: "Roasted Almond & Cashew Snap",
+    badge: "Nut Crunch",
     icon: "🥜",
     description:
-      "Whole California almonds and whole cashews are dry-roasted on cast-iron to a precise golden hue, creating an acoustic snap that contrasts harmoniously against the chewy banana base.",
+      "Whole California almonds and whole cashews are dry-roasted to a golden hue, giving a crisp, audible snap that balances against the chewy fruit base.",
     culinaryNotes: [
-      "Whole roasted California almonds retain their crunchy snap",
-      "Buttery cashew halves break with a delicate, creamy crumble",
-      "Toasted sesame seeds add microscopic crackle across the palate",
+      "Whole roasted almonds deliver an audible, satisfying crunch",
+      "Buttery cashew halves break with a delicate, creamy texture",
+      "Toasted sesame seeds add subtle crispness across every bite",
     ],
-    sommelierQuote:
-      "“A sublime tactile interplay: the satisfying crunch of whole roasted nuts puncturing through dense, luscious fruit caramel.”",
   },
   {
     id: "sweetness",
-    title: "Natural Sun Caramel",
-    score: "8.2 / 10",
-    scoreNum: 82,
+    title: "Natural Fruit Sweetness",
     badge: "0g Added Cane Sugar",
     icon: "🍯",
     description:
-      "Zero refined sucrose, brown sugar, or artificial sweeteners. 100% of the sweetness emanates from ripe fruit fructose naturally caramelized during gentle dehydration.",
+      "100% of the sweetness comes directly from ripe Cavendish bananas. Zero cane sugar, zero brown sugar, and zero artificial sweeteners.",
     culinaryNotes: [
-      "Zero sickly-sweet cloying aftertaste of cane sugar",
-      "Warm notes of honey, ripe Cavendish banana, and vanilla bean",
-      "Cleans cleanly from the palate with zero chemical sweetener lingering",
+      "Naturally concentrated banana fructose without cloying aftertaste",
+      "Warm, fruit-forward caramel notes from gentle dehydration",
+      "Leaves the palate clean without sticky sugar residue",
     ],
-    sommelierQuote:
-      "“Sophisticated, fruit-forward sweetness. It honors the banana’s authentic soul rather than masking it behind processed sugar.”",
   },
   {
     id: "aroma",
-    title: "Toasted Sesame & Warm Nut Aroma",
-    score: "9.0 / 10",
-    scoreNum: 90,
-    badge: "Artisanal Fragrance",
+    title: "Toasted Seeds & Nut Aroma",
+    badge: "Natural Fragrance",
     icon: "🌿",
     description:
-      "Opening the airtight kraft tub releases a comforting, aromatic cloud of dry-roasted sesame, nutty almond oils, and warm sun-ripened fruit.",
+      "Opening the airtight kraft tub releases a pleasant, roasted aroma of dry-roasted nuts, sesame seeds, and sun-ripened fruit.",
     culinaryNotes: [
-      "Heritage black sesame provides an earthy, smoky undertone",
-      "Golden sunflower and pumpkin seeds offer a warm harvest bouquet",
-      "No artificial fragrance, synthetic vanilla flavor, or sprays",
+      "Toasted sesame provides a comforting, nutty aroma",
+      "Golden pumpkin seeds and roasted almonds add warmth",
+      "Zero artificial flavorings, synthetic sprays, or perfumes",
     ],
-    sommelierQuote:
-      "“Aromatics that evoke a boutique kitchen where nuts and seeds are being roasted on heavy cast-iron skillets.”",
   },
   {
     id: "energy",
-    title: "Sustained Metabolic Stamina",
-    score: "9.9 / 10",
-    scoreNum: 99,
-    badge: "Zero Sugar Crash",
+    title: "Steady Natural Stamina",
+    badge: "Clean Fuel",
     icon: "⚡",
     description:
-      "Engineered by nature for steady stamina. The combination of slow-burning fruit fructose, dietary fiber, and healthy nut fats prevents insulin spikes.",
+      "Combining natural fruit carbohydrates with healthy nut fats and dietary fiber provides steady, prolonged energy without the sharp peaks and crashes of refined sugar.",
     culinaryNotes: [
-      "Low-glycemic index delivers 4–5 hours of smooth, continuous stamina",
-      "480mg natural potassium per 100g prevents muscle fatigue and cramps",
-      "6.8g prebiotic fiber supports microbiome digestion without bloating",
+      "Natural banana fructose provides smooth, sustained energy",
+      "480mg natural potassium per 100g supports muscle and nerve function",
+      "6.8g dietary fiber supports healthy digestion",
     ],
-    sommelierQuote:
-      "“Clean, sustained physical and cognitive fuel without the jittery peak and precipitous slump of commercial confectionery.”",
   },
 ]
 
@@ -111,19 +88,19 @@ export default function SensoryProfile() {
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full herbal-pill text-xs font-semibold mb-3">
             <Sparkles className="w-3.5 h-3.5 text-emerald-700" />
-            <span>Sommelier Tasting Notes</span>
+            <span>Taste & Texture Experience</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-bold text-stone-900 font-serif-luxury tracking-tight leading-tight">
             Texture, Aroma & <span className="text-[#b47919] italic font-serif">Mouthfeel</span>
           </h2>
           <p className="mt-2.5 text-stone-600 text-sm sm:text-base font-light">
-            Gourmet confectionery is experienced with all five senses. Explore how every handcrafted bite performs on your palate.
+            Crafted for balance: the chewiness of sun-ripened bananas paired with the crisp snap of whole dry-roasted nuts.
           </p>
         </div>
 
         {/* 2-Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
-          {/* Left: 5 Interactive Sensory Buttons */}
+          {/* Left: 5 Sensory Dimensions */}
           <div className="lg:col-span-5 flex flex-col gap-2.5">
             {SENSORY_DIMENSIONS.map((dim) => {
               const isSelected = activeDimension.id === dim.id
@@ -137,29 +114,16 @@ export default function SensoryProfile() {
                       : "bg-white border-[#e8e3d8] hover:border-stone-400 hover:bg-stone-50"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-xl">{dim.icon}</span>
-                      <div>
-                        <span className="text-sm font-bold text-stone-900 font-serif-luxury block">
-                          {dim.title}
-                        </span>
-                        <span className="text-[10px] uppercase tracking-wider text-[#b47919] font-mono">
-                          {dim.badge}
-                        </span>
-                      </div>
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-xl">{dim.icon}</span>
+                    <div>
+                      <span className="text-sm font-bold text-stone-900 font-serif-luxury block">
+                        {dim.title}
+                      </span>
+                      <span className="text-[10px] uppercase tracking-wider text-[#b47919] font-mono">
+                        {dim.badge}
+                      </span>
                     </div>
-                    <span className="text-sm font-bold text-stone-900 font-serif-luxury font-mono">
-                      {dim.score}
-                    </span>
-                  </div>
-
-                  {/* Score Bar */}
-                  <div className="w-full h-1.5 rounded-full bg-stone-200 overflow-hidden mt-2">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#b47919] to-[#193322] transition-all duration-300"
-                      style={{ width: `${dim.scoreNum}%` }}
-                    />
                   </div>
                 </button>
               )
@@ -176,9 +140,6 @@ export default function SensoryProfile() {
                     {activeDimension.badge}
                   </span>
                 </div>
-                <div className="px-3 py-1 rounded-full bg-white border border-[#e8e3d8] text-xs font-bold font-mono text-stone-800">
-                  Rating: {activeDimension.score}
-                </div>
               </div>
 
               <h3 className="text-2xl sm:text-3xl font-bold text-stone-900 font-serif-luxury mb-2.5">
@@ -188,10 +149,10 @@ export default function SensoryProfile() {
                 {activeDimension.description}
               </p>
 
-              {/* 3 Culinary Notes */}
-              <div className="mb-6">
+              {/* Culinary Notes */}
+              <div>
                 <span className="text-xs font-bold uppercase tracking-wider text-stone-700 font-mono block mb-3">
-                  Tasting Observations
+                  Natural Culinary Characteristics
                 </span>
                 <div className="space-y-2">
                   {activeDimension.culinaryNotes.map((note, idx) => (
@@ -204,16 +165,6 @@ export default function SensoryProfile() {
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Verdict */}
-              <div className="p-4 rounded-xl bg-white border border-[#e8e3d8]">
-                <span className="text-[10px] uppercase tracking-widest text-[#b47919] font-bold font-mono block mb-1">
-                  Artisanal Verdict
-                </span>
-                <p className="text-xs sm:text-sm italic text-stone-700 font-serif-luxury leading-relaxed">
-                  {activeDimension.sommelierQuote}
-                </p>
               </div>
             </div>
           </div>

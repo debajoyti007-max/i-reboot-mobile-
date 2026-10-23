@@ -31,7 +31,7 @@ export default function Hero() {
 
             {/* Subtext */}
             <p className="text-sm sm:text-base text-stone-600 leading-relaxed font-light max-w-xl">
-              Slow-dehydrated ripe Cavendish bananas folded with dry-roasted California whole almonds, creamy cashews, and seven nutrient-dense superfood seeds. <strong>0g added cane sugar</strong>, zero preservatives, 100% whole-food vitality.
+              Slow-dehydrated ripe Cavendish bananas folded with dry-roasted California whole almonds, creamy cashews, pumpkin seeds, and toasted sesame. <strong>0g added cane sugar</strong>, zero preservatives, 100% natural vitality.
             </p>
 
             {/* Core Value Pills */}
@@ -44,9 +44,9 @@ export default function Hero() {
               </div>
               <div className="p-3 rounded-xl bg-white border border-[#e8e3d8] text-center shadow-xs">
                 <span className="text-[#193322] font-bold text-lg sm:text-xl block font-serif-luxury">
-                  8 Whole
+                  Whole
                 </span>
-                <span className="text-[11px] text-stone-600 font-medium">Superfoods</span>
+                <span className="text-[11px] text-stone-600 font-medium">Nuts & Seeds</span>
               </div>
               <div className="p-3 rounded-xl bg-white border border-[#e8e3d8] text-center shadow-xs">
                 <span className="text-[#b47919] font-bold text-lg sm:text-xl block font-serif-luxury">

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Search, X, Sparkles, Package, Leaf, HelpCircle } from "lucide-react"
-import { PRODUCT_PACKS, SUPERFOODS, FAQS, NUTRITION_FACTS } from "../../data/purobiteData"
+import { PRODUCT_PACKS, REAL_INGREDIENTS, FAQS, NUTRITION_FACTS } from "../../data/purobiteData"
 import { useCart } from "../../context/useCart"
 
 interface SearchModalProps {
@@ -48,13 +48,13 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       )
     : PRODUCT_PACKS
 
-  // Match Superfoods
-  const matchedSuperfoods = cleanQ
-    ? SUPERFOODS.filter(
+  // Match Ingredients
+  const matchedIngredients = cleanQ
+    ? REAL_INGREDIENTS.filter(
         (s) =>
           s.name.toLowerCase().includes(cleanQ) ||
-          s.subtitle.toLowerCase().includes(cleanQ) ||
-          s.benefit.toLowerCase().includes(cleanQ)
+          s.benefit.toLowerCase().includes(cleanQ) ||
+          s.highlight.toLowerCase().includes(cleanQ)
       )
     : []
 
@@ -74,7 +74,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
   const totalResults =
     (cleanQ ? matchedPacks.length : 0) +
-    matchedSuperfoods.length +
+    matchedIngredients.length +
     matchedNutrition.length +
     matchedFaqs.length
 
@@ -110,14 +110,14 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           {query && (
             <button
               onClick={() => setQuery("")}
-              className="p-1 text-stone-400 hover:text-stone-600 transition-colors"
+              className="p-1 text-stone-400 hover:text-stone-600 transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
           )}
           <button
             onClick={handleClose}
-            className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-600 transition-colors"
+            className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-600 transition-colors cursor-pointer"
           >
             ESC
           </button>
@@ -132,7 +132,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 Popular Searches
               </span>
               <div className="flex flex-wrap gap-1.5">
-                {["0g Added Sugar", "350g Bestseller", "California Almonds", "Prebiotic Fiber", "Kolkata Kitchen", "Family Duo"].map(
+                {["0g Added Sugar", "350g Signature Pack", "California Almonds", "Dietary Fiber", "Kolkata Kitchen", "Family Duo"].map(
                   (term) => (
                     <button
                       key={term}
@@ -189,15 +189,15 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             </div>
           )}
 
-          {/* Superfood Ingredients */}
-          {matchedSuperfoods.length > 0 && (
+          {/* Real Ingredients */}
+          {matchedIngredients.length > 0 && (
             <div>
               <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-stone-600 font-mono mb-2">
                 <Leaf className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Superfood Ingredients ({matchedSuperfoods.length})</span>
+                <span>Ingredients ({matchedIngredients.length})</span>
               </div>
               <div className="space-y-2">
-                {matchedSuperfoods.map((food) => (
+                {matchedIngredients.map((food) => (
                   <div
                     key={food.id}
                     onClick={() => handleSelectSection("#superfoods")}

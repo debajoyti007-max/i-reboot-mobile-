@@ -9,8 +9,6 @@ import ProductSection from "./components/Products/ProductSection"
 import BrandStory from "./components/Story/BrandStory"
 import PurityStandard from "./components/Purity/PurityStandard"
 import SensoryProfile from "./components/Experience/SensoryProfile"
-import PurityBenchmark from "./components/Experience/PurityBenchmark"
-import CustomerReviews from "./components/Reviews/CustomerReviews"
 import FAQSection from "./components/FAQ/FAQSection"
 import Contact from "./components/Contact/Contact"
 import Footer from "./components/Footer/Footer"
@@ -31,7 +29,7 @@ export default function App() {
         {/* 3. Interactive Live Search Modal */}
         <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
-        {/* 4. Sliding Shopping Cart Drawer */}
+        {/* 4. Sliding Shopping Basket Drawer */}
         <CartDrawer />
 
         {/* 5. Main E-Commerce Content */}
@@ -39,28 +37,22 @@ export default function App() {
           {/* Hero Section */}
           <Hero />
 
-          {/* Featured Handcrafted Products with Real Add-to-Cart */}
+          {/* Handcrafted Products Menu */}
           <ProductSection />
 
           {/* Artisanal Brand Story & Kolkata Kitchen Craft */}
           <BrandStory />
 
-          {/* The Purity Standard & 8 Superfoods Transparency */}
+          {/* The Purity Standard & Whole Ingredients */}
           <PurityStandard />
 
-          {/* Sommelier Tasting Notes: Texture, Aroma & Mouthfeel */}
+          {/* Taste & Texture Characteristics */}
           <SensoryProfile />
 
-          {/* The Purity Benchmark: Commercial Bars vs. PuroBite Handcrafted */}
-          <PurityBenchmark />
-
-          {/* Customer Reviews & Testimonials from Verified Buyers */}
-          <CustomerReviews />
-
-          {/* Frequently Asked Questions Accordion */}
+          {/* Frequently Asked Questions */}
           <FAQSection />
 
-          {/* Kolkata Kitchen Concierge & Direct Order Inquiries */}
+          {/* Kolkata Kitchen Concierge & Direct Inquiries */}
           <Contact />
         </main>
 
