@@ -34,6 +34,8 @@ export const PUROBITE_CONTACT = {
   phoneDisplay: "+91 82507 55958",
   phoneRaw: "+918250755958",
   phoneTel: "tel:+918250755958",
+  upiId: "8250755958@paytm",
+  upiPayeeName: "PuroBite Handcrafted Foods",
   email: "purobitefoods@gmail.com",
   emailMailto: "mailto:purobitefoods@gmail.com",
   instagramUrl: "https://www.instagram.com/eatpurobite?mdxt=NHBreDZ5Mnk4Mmls",

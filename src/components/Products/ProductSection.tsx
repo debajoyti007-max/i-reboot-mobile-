@@ -1,7 +1,11 @@
-import { Check, MessageCircle, Sparkles } from "lucide-react"
-import { PRODUCT_PACKS } from "../../data/purobiteData"
+import { useState } from "react"
+import { Check, MessageCircle, Sparkles, QrCode } from "lucide-react"
+import { PRODUCT_PACKS, type ProductPack } from "../../data/purobiteData"
+import UPIPaymentModal from "../Payment/UPIPaymentModal"
 
 export default function ProductSection() {
+  const [selectedPackForUPI, setSelectedPackForUPI] = useState<ProductPack | null>(null)
+
   return (
     <section id="pricing" className="py-14 sm:py-20 bg-[#faf8f5]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -17,7 +21,7 @@ export default function ProductSection() {
           </h2>
 
           <p className="mt-2 text-stone-600 text-xs sm:text-sm leading-relaxed font-light">
-            Batch-crafted to order in Kolkata. Sealed in airtight recyclable kraft packaging. Tap any pack to order directly on WhatsApp.
+            Batch-crafted to order in Kolkata. Sealed in airtight recyclable kraft packaging. Order directly on WhatsApp or pay instantly via UPI.
           </p>
         </div>
 
@@ -99,25 +103,37 @@ export default function ProductSection() {
                   </div>
                 </div>
 
-                {/* 1-Tap Direct WhatsApp Order */}
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-semibold text-xs tracking-wide shadow-xs transition-colors touch-press cursor-pointer ${
-                    isSignature
-                      ? "bg-[#193322] hover:bg-[#122519] text-[#f7f3ea]"
-                      : "bg-[#faf8f5] hover:bg-stone-200 text-stone-900 border border-stone-300"
-                  }`}
-                >
-                  <MessageCircle className="w-4 h-4 fill-current" />
-                  <span>Order on WhatsApp</span>
-                </a>
+                {/* 2 Clear Action Buttons: WhatsApp & UPI Pay */}
+                <div className="space-y-2 pt-2">
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-[#193322] hover:bg-[#122519] text-[#f7f3ea] font-semibold text-xs tracking-wide shadow-xs transition-colors touch-press cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-current" />
+                    <span>Order on WhatsApp</span>
+                  </a>
+
+                  <button
+                    onClick={() => setSelectedPackForUPI(pack)}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-white hover:bg-stone-50 text-stone-800 border border-stone-300 font-semibold text-xs tracking-wide shadow-2xs transition-colors touch-press cursor-pointer"
+                  >
+                    <QrCode className="w-4 h-4 text-[#b47919]" />
+                    <span>Pay via UPI / QR (₹{pack.price})</span>
+                  </button>
+                </div>
               </div>
             )
           })}
         </div>
       </div>
+
+      {/* UPI Payment Modal */}
+      <UPIPaymentModal
+        pack={selectedPackForUPI}
+        onClose={() => setSelectedPackForUPI(null)}
+      />
     </section>
   )
 }
